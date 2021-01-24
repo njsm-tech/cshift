@@ -1,11 +1,8 @@
 from enum import Enum
 
-class ColumnType(Enum):
-    FLOAT = 1
-    INT = 2
-    STR = 3
-
-class FeatureType(Enum):
-    NUM = 1
-    ORD = 2
-    CAT = 3
+class SummaryStats:
+    NULL_RATE = 1
+    MEAN = 2
+    MEDIAN = 3
+    VAR = 4
+    QUANTILES = 5
