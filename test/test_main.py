@@ -15,22 +15,22 @@ def test_main():
     ds_unsep: Dataset = gen_unseparated_data(colnames)
 
 def gen_unseparated_data(colnames: List[str]) -> Dataset:
-    locs = ss.norm.rvs(loc=0., scale=1., size=NFEAT)
-    scales = np.abs(ss.norm.rvs(loc=0., scale=1., size=NFEAT))
+    locs = gen_data(size=NFEAT)
+    scales = np.abs(gen_data(size=NFEAT))
     arr = gen_data(loc=locs, scale=scale, size=SIZE)
     return Dataset.from_array(arr=arr, colnames=colnames)
 
 def gen_separated_data(colnames: List[str]) -> Dataset:
-    locs1 = ss.norm.rvs(loc=0., scale=1., size=NFEAT)
-    scales1 = np.abs(ss.norm.rvs(loc=0., scale=1., size=NFEAT))
+    locs1 = gen_data(size=NFEAT)
+    scales1 = np.abs(gen_data(size=NFEAT))
     arr1 = gen_data(loc=locs1, scale=scales1, size=SIZE/2)
 
-    locs2 = ss.norm.rvs(loc=0., scale=1., size=NFEAT)
-    scales2 = np.abs(ss.norm.rvs(loc=0., scale=1., size=NFEAT))
+    locs2 = gen_data(size=NFEAT)
+    scales2 = np.abs(gen_data(size=NFEAT))
     arr2 = gen_data(loc=locs2, scale=scales2, size=SIZE/2)
 
     arr = np.concatenate([arr1, arr2], axis=0)
     return Dataset.from_array(arr=arr, colnames=colnames)
 
-def gen_data(loc, scale, size) -> Dataset:
-    return ss.norm.rvs(loc=loc, scale=scale, size=size)
+def gen_data(dist=ss.norm, loc=0., scale=1., size=1) -> Dataset:
+    return dist.rvs(loc=loc, scale=scale, size=size)
