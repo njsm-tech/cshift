@@ -3,7 +3,7 @@ from typing import List, Tuple
 import numpy as np
 import pandas as pd
 
-from .column import Column
+from ..column import Column
 
 class Dataset:
     def __init__(self, df: pd.DataFrame):
@@ -25,11 +25,9 @@ class Dataset:
         return cls(df)
 
     @classmethod
-    def generate(cls, size: Tuple[int]):
-        nrows = size[0]
-        ncols = size[1]
-        cols = []
-        for i, col in enumerate(cols):
-            name = 'col' + str(i)
-            cols.append(Column.generate(name=name, size=nrows))
-        return cls.from_columns(cols)
+    def read_from_file(cls, path, **kwargs):
+        df = pd.read_parquet(path, **kwargs)
+        return cls(df)
+
+    def write_to_file(self, path, **kwargs):
+        self.df.to_parquet(path=path, **kwargs)
