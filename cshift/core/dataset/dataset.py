@@ -3,11 +3,17 @@ from typing import List, Tuple
 import numpy as np
 import pandas as pd
 
-from .column import Column
+from ..column import Column
 
 class Dataset:
     def __init__(self, df: pd.DataFrame):
         self.df: pd.DataFrame = df
+
+    @classmethod
+    def concatenate(cls, *dss):
+        dfs = map(lambda ds: ds.df, dss)
+        df = pd.concat(dfs, axis=0)
+        return cls(df)
 
     @classmethod
     def from_array(cls, arr: np.NDArray, colnames: List[str]):
@@ -25,11 +31,9 @@ class Dataset:
         return cls(df)
 
     @classmethod
-    def generate(cls, size: Tuple[int]):
-        ncols = size[0]
-        nrows = size[1]
-        cols = []
-        for i, col in enumerate(cols):
-            name = 'col' + str(i)
-            cols.append(Column.generate(name=name, size=nrows))
-        return cls.from_columns(cols)
+    def read_from_file(cls, path, **kwargs):
+        df = pd.read_parquet(path, **kwargs)
+        return cls(df)
+
+    def write_to_file(self, path, **kwargs):
+        self.df.to_parquet(path=path, **kwargs)

@@ -1,0 +1,38 @@
+syntax = 'proto3';
+
+enum FeatureType {
+    CONTINUOUS = 0;
+    ORDINAL = 1;
+    BINARY = 2;
+    CATEGORICAL = 3;
+}
+
+enum DataType {
+    FLOAT = 0;
+    INT = 1;
+    BOOL = 2;
+    STRING = 3;
+}
+
+message RandomColumnSpec {
+    // spec for generating random data using scipy.stats 
+    string dist_name = 1;
+    int32 size = 2;
+    map<string, float> kwargs = 3;
+}
+
+message ColumnSpec {
+    string name = 1;
+    int64 id = 2;
+    FeatureType ftype = 3;
+    DataType dtype = 4;
+
+    RandomColumnSpec random_column_spec = 10;
+}
+
+message DatasetSpec {
+    repeated ColumnSpec columns = 1;
+    repeated string index_column_names = 2;
+}
+
+
