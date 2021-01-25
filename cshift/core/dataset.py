@@ -26,8 +26,8 @@ class Dataset:
 
     @classmethod
     def generate(cls, size: Tuple[int]):
-        ncols = size[0]
-        nrows = size[1]
+        nrows = size[0]
+        ncols = size[1]
         cols = []
         for i, col in enumerate(cols):
             name = 'col' + str(i)

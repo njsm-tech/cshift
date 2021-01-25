@@ -10,8 +10,8 @@ SIZE = 1000
 STATE = 42
 
 def test_main():
-    colnames: List[str] = ['feat' + str(i) for i in range(NFEAT)]
-    ds_sep: Dataset = gen_separated_data(colnames)
+    size = (SIZE, NFEAT)
+    ds_sep: Dataset = Dataset.generate(
     ds_unsep: Dataset = gen_unseparated_data(colnames)
 
 def gen_unseparated_data(colnames: List[str]) -> Dataset:

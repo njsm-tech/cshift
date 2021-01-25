@@ -1,0 +1,35 @@
+enum FeatureType {
+    CONTINUOUS = 1;
+    ORDINAL = 2;
+    BINARY = 3;
+    CATEGORICAL = 4;
+}
+
+enum DataType {
+    FLOAT = 1;
+    INT = 2;
+    BOOL = 3;
+    STRING = 4;
+}
+
+message ColumnSpec {
+    optional string name = 1;
+    optional int64 id = 2;
+    optional FeatureType ftype = 3;
+    optional DataType dtype = 4;
+    optional string dist_name = 5; // distribution name 
+}
+
+message ColumnData {
+    oneof data_values {
+        optional repeated double float_values = 1;
+        optional repeated int64 int_values = 2;
+        optional repeated bool bool_values = 3;
+        optional repeated string string_values = 4;
+    }
+}
+
+message DatasetSpec {
+    optional repeated ColumnSpec columns = 1;
+    optional repeated string index_column_names = 2;
+}
