@@ -3,7 +3,7 @@ from typing import List, Tuple
 import numpy as np
 import pandas as pd
 
-from ..column import Column
+from cshift.core.column import Column
 
 class Dataset:
     def __init__(self, df: pd.DataFrame):
@@ -16,7 +16,7 @@ class Dataset:
         return cls(df)
 
     @classmethod
-    def from_array(cls, arr: np.NDArray, colnames: List[str]):
+    def from_array(cls, arr: np.array, colnames: List[str]):
         df: pd.DataFrame = pd.DataFrame(data=arr, columns=colnames)
         return cls(df=df)
 
@@ -26,14 +26,14 @@ class Dataset:
         for col in columns:
             names.append(col.name)
             arrays.append(col.arr)
-        data = np.vstack(arrays)
+        data = np.hstack(arrays)
         df = pd.DataFrame(data=data, columns=names)
         return cls(df)
 
     @classmethod
-    def read_from_file(cls, path, **kwargs):
+    def read(cls, path, **kwargs):
         df = pd.read_parquet(path, **kwargs)
         return cls(df)
 
-    def write_to_file(self, path, **kwargs):
+    def write(self, path, **kwargs):
         self.df.to_parquet(path=path, **kwargs)
