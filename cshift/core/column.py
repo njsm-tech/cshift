@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 import scipy.stats as ss
 
+import pb2
+
 class Column:
     # TODO: add type? 
     def __init__(self, name, arr):
@@ -13,8 +15,8 @@ class Column:
         pass
 
     @classmethod
-    def generate(cls, name, size, dist=ss.norm, **dist_kwargs):
-        """Generates a column of random data"""
-        dist_kwargs = dist_kwargs or {'loc': 0., 'scale': 1.}
-        arr = dist.rvs(**dist_kwargs, size=size)
-        return cls(name=name, arr=arr)
+    def generate_from_spec(cls, spec: pb2.ColumnSpec):
+        rspec = spec.random_column_spec
+        dist = getattr(ss, rspec.dist_name)
+        data = dist.rvs(size=rspec.size, **rspec.kwargs)
+        return cls(name=spec.name, arr=data)

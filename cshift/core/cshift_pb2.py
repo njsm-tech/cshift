@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0c\x63shift.proto\"e\n\x10RandomColumnSpec\x12\x11\n\tdist_name\x18\x01 \x01(\t\x12\x0b\n\x03loc\x18\x02 \x01(\x02\x12\r\n\x05scale\x18\x03 \x01(\x02\x12\x0c\n\x04size\x18\x04 \x01(\x05\x12\t\n\x01\x61\x18\x05 \x01(\x02\x12\t\n\x01\x62\x18\x06 \x01(\x02\"\x8c\x01\n\nColumnSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x03\x12\x1b\n\x05\x66type\x18\x03 \x01(\x0e\x32\x0c.FeatureType\x12\x18\n\x05\x64type\x18\x04 \x01(\x0e\x32\t.DataType\x12-\n\x12random_column_spec\x18\n \x01(\x0b\x32\x11.RandomColumnSpec\"G\n\x0b\x44\x61tasetSpec\x12\x1c\n\x07\x63olumns\x18\x01 \x03(\x0b\x32\x0b.ColumnSpec\x12\x1a\n\x12index_column_names\x18\x02 \x03(\t*G\n\x0b\x46\x65\x61tureType\x12\x0e\n\nCONTINUOUS\x10\x00\x12\x0b\n\x07ORDINAL\x10\x01\x12\n\n\x06\x42INARY\x10\x02\x12\x0f\n\x0b\x43\x41TEGORICAL\x10\x03*4\n\x08\x44\x61taType\x12\t\n\x05\x46LOAT\x10\x00\x12\x07\n\x03INT\x10\x01\x12\x08\n\x04\x42OOL\x10\x02\x12\n\n\x06STRING\x10\x03\x62\x06proto3'
+  serialized_pb=b'\n\x0c\x63shift.proto\"\x91\x01\n\x10RandomColumnSpec\x12\x11\n\tdist_name\x18\x01 \x01(\t\x12\x0c\n\x04size\x18\x02 \x01(\x05\x12-\n\x06kwargs\x18\x03 \x03(\x0b\x32\x1d.RandomColumnSpec.KwargsEntry\x1a-\n\x0bKwargsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x02:\x02\x38\x01\"\x8c\x01\n\nColumnSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x03\x12\x1b\n\x05\x66type\x18\x03 \x01(\x0e\x32\x0c.FeatureType\x12\x18\n\x05\x64type\x18\x04 \x01(\x0e\x32\t.DataType\x12-\n\x12random_column_spec\x18\n \x01(\x0b\x32\x11.RandomColumnSpec\"G\n\x0b\x44\x61tasetSpec\x12\x1c\n\x07\x63olumns\x18\x01 \x03(\x0b\x32\x0b.ColumnSpec\x12\x1a\n\x12index_column_names\x18\x02 \x03(\t*G\n\x0b\x46\x65\x61tureType\x12\x0e\n\nCONTINUOUS\x10\x00\x12\x0b\n\x07ORDINAL\x10\x01\x12\n\n\x06\x42INARY\x10\x02\x12\x0f\n\x0b\x43\x41TEGORICAL\x10\x03*4\n\x08\x44\x61taType\x12\t\n\x05\x46LOAT\x10\x00\x12\x07\n\x03INT\x10\x01\x12\x08\n\x04\x42OOL\x10\x02\x12\n\n\x06STRING\x10\x03\x62\x06proto3'
 )
 
 _FEATURETYPE = _descriptor.EnumDescriptor(
@@ -53,8 +53,8 @@ _FEATURETYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=335,
-  serialized_end=406,
+  serialized_start=380,
+  serialized_end=451,
 )
 _sym_db.RegisterEnumDescriptor(_FEATURETYPE)
 
@@ -89,8 +89,8 @@ _DATATYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=408,
-  serialized_end=460,
+  serialized_start=453,
+  serialized_end=505,
 )
 _sym_db.RegisterEnumDescriptor(_DATATYPE)
 
@@ -105,6 +105,44 @@ BOOL = 2
 STRING = 3
 
 
+
+_RANDOMCOLUMNSPEC_KWARGSENTRY = _descriptor.Descriptor(
+  name='KwargsEntry',
+  full_name='RandomColumnSpec.KwargsEntry',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='key', full_name='RandomColumnSpec.KwargsEntry.key', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='value', full_name='RandomColumnSpec.KwargsEntry.value', index=1,
+      number=2, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=b'8\001',
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=117,
+  serialized_end=162,
+)
 
 _RANDOMCOLUMNSPEC = _descriptor.Descriptor(
   name='RandomColumnSpec',
@@ -122,44 +160,23 @@ _RANDOMCOLUMNSPEC = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='loc', full_name='RandomColumnSpec.loc', index=1,
-      number=2, type=2, cpp_type=6, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='scale', full_name='RandomColumnSpec.scale', index=2,
-      number=3, type=2, cpp_type=6, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='size', full_name='RandomColumnSpec.size', index=3,
-      number=4, type=5, cpp_type=1, label=1,
+      name='size', full_name='RandomColumnSpec.size', index=1,
+      number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='a', full_name='RandomColumnSpec.a', index=4,
-      number=5, type=2, cpp_type=6, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='b', full_name='RandomColumnSpec.b', index=5,
-      number=6, type=2, cpp_type=6, label=1,
-      has_default_value=False, default_value=float(0),
+      name='kwargs', full_name='RandomColumnSpec.kwargs', index=2,
+      number=3, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
-  nested_types=[],
+  nested_types=[_RANDOMCOLUMNSPEC_KWARGSENTRY, ],
   enum_types=[
   ],
   serialized_options=None,
@@ -168,8 +185,8 @@ _RANDOMCOLUMNSPEC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=16,
-  serialized_end=117,
+  serialized_start=17,
+  serialized_end=162,
 )
 
 
@@ -228,8 +245,8 @@ _COLUMNSPEC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=120,
-  serialized_end=260,
+  serialized_start=165,
+  serialized_end=305,
 )
 
 
@@ -267,10 +284,12 @@ _DATASETSPEC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=262,
-  serialized_end=333,
+  serialized_start=307,
+  serialized_end=378,
 )
 
+_RANDOMCOLUMNSPEC_KWARGSENTRY.containing_type = _RANDOMCOLUMNSPEC
+_RANDOMCOLUMNSPEC.fields_by_name['kwargs'].message_type = _RANDOMCOLUMNSPEC_KWARGSENTRY
 _COLUMNSPEC.fields_by_name['ftype'].enum_type = _FEATURETYPE
 _COLUMNSPEC.fields_by_name['dtype'].enum_type = _DATATYPE
 _COLUMNSPEC.fields_by_name['random_column_spec'].message_type = _RANDOMCOLUMNSPEC
@@ -283,11 +302,19 @@ DESCRIPTOR.enum_types_by_name['DataType'] = _DATATYPE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 RandomColumnSpec = _reflection.GeneratedProtocolMessageType('RandomColumnSpec', (_message.Message,), {
+
+  'KwargsEntry' : _reflection.GeneratedProtocolMessageType('KwargsEntry', (_message.Message,), {
+    'DESCRIPTOR' : _RANDOMCOLUMNSPEC_KWARGSENTRY,
+    '__module__' : 'cshift_pb2'
+    # @@protoc_insertion_point(class_scope:RandomColumnSpec.KwargsEntry)
+    })
+  ,
   'DESCRIPTOR' : _RANDOMCOLUMNSPEC,
   '__module__' : 'cshift_pb2'
   # @@protoc_insertion_point(class_scope:RandomColumnSpec)
   })
 _sym_db.RegisterMessage(RandomColumnSpec)
+_sym_db.RegisterMessage(RandomColumnSpec.KwargsEntry)
 
 ColumnSpec = _reflection.GeneratedProtocolMessageType('ColumnSpec', (_message.Message,), {
   'DESCRIPTOR' : _COLUMNSPEC,
@@ -304,4 +331,5 @@ DatasetSpec = _reflection.GeneratedProtocolMessageType('DatasetSpec', (_message.
 _sym_db.RegisterMessage(DatasetSpec)
 
 
+_RANDOMCOLUMNSPEC_KWARGSENTRY._options = None
 # @@protoc_insertion_point(module_scope)

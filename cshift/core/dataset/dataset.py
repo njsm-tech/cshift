@@ -10,6 +10,12 @@ class Dataset:
         self.df: pd.DataFrame = df
 
     @classmethod
+    def concatenate(cls, *dss):
+        dfs = map(lambda ds: ds.df, dss)
+        df = pd.concat(dfs, axis=0)
+        return cls(df)
+
+    @classmethod
     def from_array(cls, arr: np.NDArray, colnames: List[str]):
         df: pd.DataFrame = pd.DataFrame(data=arr, columns=colnames)
         return cls(df=df)

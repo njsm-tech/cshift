@@ -17,11 +17,8 @@ enum DataType {
 message RandomColumnSpec {
     // spec for generating random data using scipy.stats 
     string dist_name = 1;
-    float loc = 2;
-    float scale = 3;
-    int32 size = 4;
-    float a = 5;
-    float b = 6;
+    int32 size = 2;
+    map<string, float> kwargs = 3;
 }
 
 message ColumnSpec {
