@@ -27,19 +27,20 @@ def gen_col(dist_name=None, size=None, kwargs=None, name=None) -> Column:
     return Column.generate_from_spec(cspec)
 
 @pytest.fixture(scope='package')
-def normal_unsep_ds1() -> Dataset:
+def normal_unsep_ds() -> Dataset:
     locs = [-2., -1., 0., 1., 2.]
-    scales = [1., 1., 0.5, 0.5, 0.5]
-    return gen_normal_ds(ncols=NFEAT, locs=locs, scales=scales, size=SIZE)
+    scales = [.1, .1, .1, .1, .1]
+    ds1 = gen_normal_ds(ncols=NFEAT, locs=locs, scales=scales, size=SIZE)
+    ds2 = gen_normal_ds(ncols=NFEAT, locs=locs, scales=scales, size=SIZE)
+    return [ds1, ds2]
 
 @pytest.fixture(scope='package')
-def normal_sep_ds1() -> Dataset:
-    half = SIZE // 2
+def normal_sep_ds() -> Dataset:
     locs = [-2., -1., 0., 1., 2.]
-    scales = [1., 1., 0.5, 0.5, 0.5]
-    ds1 = gen_normal_ds(ncols=NFEAT, locs=locs, scales=scales, size=half)
-    locs = [-1., -1., 0., 0.5, 1.]
-    scales = [1., 0.5, 2., 1., 0.5]
-    ds2 = gen_normal_ds(ncols=NFEAT, locs=locs, scales=scales, size=half)
-    return Dataset.concatenate(ds1, ds2)    
+    scales = [.1, .1, .05, .05, .05]
+    ds1 = gen_normal_ds(ncols=NFEAT, locs=locs, scales=scales, size=SIZE)
+    locs = [-1., -1., 0., .5, 1.]
+    scales = [.1, .1, .05, .05, .05]
+    ds2 = gen_normal_ds(ncols=NFEAT, locs=locs, scales=scales, size=SIZE)
+    return [ds1, ds2]
 

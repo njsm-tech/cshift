@@ -9,5 +9,5 @@ from ..dataset import Dataset
 class KSComparison(Comparison):
     @classmethod
     def compare(cls, *datasets):
-        cls.validate_datasets(datasets)
+        cls.validate_datasets(*datasets)
 

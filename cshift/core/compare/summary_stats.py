@@ -17,7 +17,7 @@ class SummaryStatsComparison(Comparison):
 
     @classmethod
     def compare(cls, *datasets: List[Dataset]) -> pd.DataFrame:
-        cls.validate_datasets(datasets)
+        cls.validate_datasets(*datasets)
         [ds1, ds2] = datasets
         ds1_summary = cls.compute_summary_stats(ds1)
         ds2_summary = cls.compute_summary_stats(ds2)
