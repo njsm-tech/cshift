@@ -33,4 +33,4 @@ class SummaryStatsComparison(Comparison):
     def shift_detected(cls, *datasets: List[Dataset]) -> bool:
         diff = cls.compare(*datasets)
         zeros = np.zeros_like(diff.values)
-        return np.all(np.isclose(diff.values, zeros, atol=cls.ATOL))
+        return np.any(np.logical_not(np.isclose(diff.values, zeros, atol=cls.ATOL)))
