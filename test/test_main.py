@@ -5,7 +5,10 @@ import pandas as pd
 import scipy.stats as ss
 
 from cshift.core.dataset import Dataset
-from cshift.core.compare.summary_stats import SummaryStatsComparison
+from cshift.core.compare.summary_stats import (
+        KSComparison,
+        SummaryStatsComparison
+        )
 
 from random_data_configs import (
         normal_sep_ds,
@@ -16,7 +19,12 @@ ATOL = 1e-1
 
 def datasets_same(ds1: Dataset, ds2: Dataset):
     diff = SummaryStatsComparison.compare(ds1, ds2)
-    return _diff_zero(diff)
+    if not _diff_zero(diff):
+        return False
+    diff = KSComparison.compare(ds1, ds2)
+    if not _diff_zero(diff):
+        return False
+    return True
 
 def _diff_zero(diff: pd.DataFrame):
     zeros = np.zeros_like(diff.values)
