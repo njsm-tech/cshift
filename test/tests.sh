@@ -1,1 +1,1 @@
-py.test -sxv
+py.test -sx -vv

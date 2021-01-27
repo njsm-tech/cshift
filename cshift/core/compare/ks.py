@@ -19,12 +19,10 @@ class KSComparison(Comparison):
         df1, df2 = ds1.df, ds2.df
         res_map = {}
         for colname in df1.columns:
-            print(colname)
             arr1, arr2 = df1[colname].values, df2[colname].values
             (stat, pval) = ss.ks_2samp(arr1, arr2)
             res_map[colname] = {cls.KS_STAT: stat, cls.KS_PVAL: pval}
         res_df = pd.DataFrame.from_dict(res_map, orient='columns')
-        print(res_df)
         return res_df
 
     @classmethod
@@ -32,5 +30,5 @@ class KSComparison(Comparison):
         """Looks for shift only using pvalues, as this should contain 
             all necessary information for shift detection."""
         diff = cls.compare(*datasets)
-        pvals = diff[cls.KS_PVAL].values
-        return np.any(pvals > cls.KS_PVAL_THRESH)
+        pvals = diff.loc[cls.KS_PVAL].values
+        return np.any(pvals < cls.KS_PVAL_THRESH)

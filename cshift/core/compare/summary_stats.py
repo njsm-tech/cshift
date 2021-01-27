@@ -21,7 +21,8 @@ class SummaryStatsComparison(Comparison):
         [ds1, ds2] = datasets
         ds1_summary = cls.compute_summary_stats(ds1)
         ds2_summary = cls.compute_summary_stats(ds2)
-        return ds1_summary - ds2_summary
+        diff = ds1_summary - ds2_summary
+        return diff
 
     @classmethod
     def compute_summary_stats(cls, dataset: Dataset) -> pd.DataFrame:
