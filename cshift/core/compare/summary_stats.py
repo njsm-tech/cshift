@@ -28,3 +28,9 @@ class SummaryStatsComparison(Comparison):
         df = dataset.df
         desc = df.describe(percentiles=cls.PERCENTILES_NORMALIZED)
         return desc.loc[cls.DIFF_FIELDS]
+
+    @classmethod
+    def shift_detected(cls, *datasets: List[Dataset]) -> bool:
+        diff = cls.compare(*datasets)
+        zeros = np.zeros_like(diff.values)
+        return np.all(np.isclose(diff.values, zeros, atol=cls.ATOL))

@@ -5,31 +5,17 @@ import pandas as pd
 import scipy.stats as ss
 
 from cshift.core.dataset import Dataset
-from cshift.core.compare.summary_stats import (
-        KSComparison,
-        SummaryStatsComparison
-        )
+from cshift.core.compare.summary_stats import SummaryStatsComparison
+from cshift.core.compare.ks import KSComparison
 
 from random_data_configs import (
         normal_sep_ds,
         normal_unsep_ds
         )
 
-ATOL = 1e-1
-
-def datasets_same(ds1: Dataset, ds2: Dataset):
-    diff = SummaryStatsComparison.compare(ds1, ds2)
-    if not _diff_zero(diff):
-        return False
-    diff = KSComparison.compare(ds1, ds2)
-    if not _diff_zero(diff):
-        return False
-    return True
-
-def _diff_zero(diff: pd.DataFrame):
-    zeros = np.zeros_like(diff.values)
-    return np.all(np.isclose(diff.values, zeros, atol=ATOL))
-
 def test_main(normal_sep_ds, normal_unsep_ds):
-    assert datasets_same(*normal_unsep_ds)
-    assert not datasets_same(*normal_sep_ds)
+    assert not SummaryStatsComparison.shift_detected(*normal_unsep_ds)
+    assert not KSComparison.shift_detected(*normal_unsep_ds)
+
+    assert SummaryStatsComparison.shift_detected(*normal_sep_ds)
+    assert KSComparison.shift_detected(*normal_sep_ds)

@@ -5,6 +5,8 @@ import pandas as pd
 from cshift.core.dataset import Dataset
 
 class Comparison:
+    ATOL = 1e-1  # absolute tolerance for np.isclose 
+
     @classmethod
     def compare(cls, *datasets: List[Dataset]) -> pd.DataFrame:
         """
