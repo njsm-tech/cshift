@@ -1,3 +1,4 @@
+import os
 import pytest
 
 from cshift.core import cshift_pb2 as pb2
@@ -5,8 +6,12 @@ from cshift.core.column import Column
 from cshift.core.dataset import Dataset
 
 NFEAT = 5
-SIZE = 10000
+SIZE = 2000
 RAND_STATE = 42
+
+READ = True
+WRITE = False
+DATASETS_DIR = 'datasets'
 
 def gen_normal_ds(ncols=None, locs=None, scales=None, size=None) -> Dataset:
     cols = []
@@ -28,19 +33,35 @@ def gen_col(dist_name=None, size=None, kwargs=None, name=None) -> Column:
 
 @pytest.fixture(scope='package')
 def normal_unsep_ds() -> Dataset:
-    locs = [-2., -1., 0., 1., 2.]
-    scales = [.1, .1, .1, .1, .1]
-    ds1 = gen_normal_ds(ncols=NFEAT, locs=locs, scales=scales, size=SIZE)
-    ds2 = gen_normal_ds(ncols=NFEAT, locs=locs, scales=scales, size=SIZE)
+    base_path = os.path.join(DATASETS_DIR, 'normal_unsep_ds')
+    if READ:
+        ds1 = Dataset.read(base_path + '1')
+        ds2 = Dataset.read(base_path + '2')
+    else:
+        locs = [-2., -1., 0., 1., 2.]
+        scales = [.1, .1, .1, .1, .1]
+        ds1 = gen_normal_ds(ncols=NFEAT, locs=locs, scales=scales, size=SIZE)
+        ds2 = gen_normal_ds(ncols=NFEAT, locs=locs, scales=scales, size=SIZE)
+    if WRITE:
+        ds1.write(base_path + '1')
+        ds2.write(base_path + '2')
     return [ds1, ds2]
 
 @pytest.fixture(scope='package')
 def normal_sep_ds() -> Dataset:
-    locs = [-2., -1., 0., 1., 2.]
-    scales = [.1, .1, .05, .05, .05]
-    ds1 = gen_normal_ds(ncols=NFEAT, locs=locs, scales=scales, size=SIZE)
-    locs = [-1., -1., 0., .5, 1.]
-    scales = [.1, .1, .05, .05, .05]
-    ds2 = gen_normal_ds(ncols=NFEAT, locs=locs, scales=scales, size=SIZE)
+    base_path = os.path.join(DATASETS_DIR, 'normal_sep_ds')
+    if READ:
+        ds1 = Dataset.read(base_path + '1')
+        ds2 = Dataset.read(base_path + '2')
+    else:
+        locs = [-2., -1., 0., 1., 2.]
+        scales = [.1, .1, .05, .05, .05]
+        ds1 = gen_normal_ds(ncols=NFEAT, locs=locs, scales=scales, size=SIZE)
+        locs = [-1., -1., 0., .5, 1.]
+        scales = [.1, .1, .05, .05, .05]
+        ds2 = gen_normal_ds(ncols=NFEAT, locs=locs, scales=scales, size=SIZE)
+    if WRITE:
+        ds1.write(base_path + '1')
+        ds2.write(base_path + '2')
     return [ds1, ds2]
 

@@ -31,9 +31,9 @@ class Dataset:
         return cls(df)
 
     @classmethod
-    def read_from_file(cls, path, **kwargs):
+    def read(cls, path, **kwargs):
         df = pd.read_parquet(path, **kwargs)
         return cls(df)
 
-    def write_to_file(self, path, **kwargs):
+    def write(self, path, **kwargs):
         self.df.to_parquet(path=path, **kwargs)

@@ -1,6 +1,7 @@
 from typing import List
 
 import numpy as np
+import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
@@ -32,7 +33,8 @@ class LRComparison(Comparison):
 
         # create lr features and labels
         lr_feat = np.vstack([lr_feat1, lr_feat2])
-        zeros, ones = np.zeros(lr_feat1.shape[0]), np.ones(lr_feat2.shape[0])
+        zeros = np.zeros(lr_feat1.shape[0]).reshape(-1, 1)
+        ones = np.ones(lr_feat2.shape[0]).reshape(-1, 1)
         lr_labels = np.vstack([zeros, ones])
         lr_X_train, lr_X_test, lr_y_train, lr_y_test = train_test_split(
                 lr_feat, lr_labels, test_size=.5)
@@ -42,7 +44,7 @@ class LRComparison(Comparison):
         lr_model.fit(lr_X_train, lr_y_train)
         lr_train_acc = lr_model.score(lr_X_train, lr_y_train)
         lr_test_acc = lr_model.score(lr_X_test, lr_y_test)
-        lr_weights = lr_model.coef_
+        lr_weights = lr_model.coef_.flatten()
 
         # create result dataframe 
         res = {}
@@ -54,7 +56,6 @@ class LRComparison(Comparison):
                 }
         
         res_df = pd.DataFrame.from_dict(res, orient='columns')
-        print(res_df)
         return res_df
 
     @classmethod
