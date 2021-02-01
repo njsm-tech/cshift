@@ -16,19 +16,28 @@ class SummaryStatsComparison(Comparison):
     DIFF_FIELDS = ['mean', 'std'] + PERCENTILES_STR
 
     @classmethod
-    def compare(cls, *datasets: List[Dataset]) -> pd.DataFrame:
-        cls.validate_datasets(*datasets)
+    def compare(cls, 
+            *datasets: List[Dataset],
+            groupby_fields: List[str] = None) -> pd.DataFrame:
+        cls.validate_datasets(*datasets, groupby_fields=groupby_fields)
         [ds1, ds2] = datasets
-        ds1_summary = cls.compute_summary_stats(ds1)
-        ds2_summary = cls.compute_summary_stats(ds2)
+        ds1_summary = cls.compute_summary_stats(ds1, 
+                groupby_fields=groupby_fields)
+        ds2_summary = cls.compute_summary_stats(ds2,
+                groupby_fields=groupby_fields)
         diff = ds1_summary - ds2_summary
         return diff
 
     @classmethod
-    def compute_summary_stats(cls, dataset: Dataset) -> pd.DataFrame:
+    def compute_summary_stats(cls, dataset: Dataset, 
+            groupby_fields: List[str] = None) -> pd.DataFrame:
         df = dataset.df
-        desc = df.describe(percentiles=cls.PERCENTILES_NORMALIZED)
-        return desc.loc[cls.DIFF_FIELDS]
+        if groupby_fields:
+            desc = df.groupby(groupby_fields).describe(percentiles=cls.PERCENTILES_NORMALIZED)
+            return desc.loc[cls.DIFF_FIELDS]
+        else:
+            desc = df.describe(percentiles=cls.PERCENTILES_NORMALIZED)
+            return desc.loc[cls.DIFF_FIELDS]
 
     @classmethod
     def shift_detected(cls, *datasets: List[Dataset]) -> bool:

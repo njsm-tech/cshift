@@ -8,7 +8,9 @@ class Comparison:
     ATOL = 1e-1  # absolute tolerance for np.isclose 
 
     @classmethod
-    def compare(cls, *datasets: List[Dataset]) -> pd.DataFrame:
+    def compare(cls, 
+            *datasets: List[Dataset], 
+            groupby_fields: List[str] = None) -> pd.DataFrame:
         """
         Checks for distributional shift between datasets using the 
             comparison specified by the subclass. 
@@ -21,7 +23,9 @@ class Comparison:
         raise NotImplementedError()
 
     @classmethod
-    def shift_detected(cls, *datasets: List[Dataset]) -> bool:
+    def shift_detected(cls, 
+            *datasets: List[Dataset],
+            groupby_fields: List[str] = None) -> bool:
         """
         Checks for distributional shift between datasets using the 
             comparison specified by the subclass. 
@@ -34,6 +38,8 @@ class Comparison:
         raise NotImplementedError()
 
     @classmethod
-    def validate_datasets(cls, *datasets) -> None:
+    def validate_datasets(cls, 
+            *datasets: List[Dataset],
+            groupby_fields: List[str] = None) -> None:
         if len(datasets) != 2:
             raise ValueError("Require exactly 2 datasets; got %d" % len(datasets))
