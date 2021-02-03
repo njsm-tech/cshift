@@ -13,6 +13,8 @@ DAYS = 14
 READ = True
 WRITE = False
 DATASETS_DIR = 'datasets'
+GEN_DATASETS_DIR = os.path.join(DATASETS_DIR, 'generated')
+KGL_DATASETS_DIR = os.path.join(DATASETS_DIR, 'kaggle')
 
 def gen_normal_ds(ncols=None, locs=None, scales=None, size=None) -> Dataset:
     cols = []
