@@ -1,18 +1,12 @@
-import numpy as np
-import pandas as pd
 import scipy.stats as ss
 
-from cshift.core import cshift_pb2 as pb2
+from cshift.proto import cshift_pb2 as pb2
 
 class Column:
     # TODO: add type? 
     def __init__(self, name, arr):
         self.name = name
         self.arr = arr
-
-    @classmethod
-    def from_series(cls, series: pd.Series):
-        pass
 
     @classmethod
     def generate_from_spec(cls, spec: pb2.ColumnSpec):

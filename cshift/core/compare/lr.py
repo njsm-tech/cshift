@@ -5,19 +5,24 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
-from .comparison import Comparison
-from ..dataset import Dataset
+from cshift.core.compare.comparison import Comparison
+from cshift.core.dataset import Dataset
+from cshift.core.result.result import Result
+from cshift.proto import cshift_pb2 as pb2
 
 class LRComparison(Comparison):
+    comparison_type = pb2.ComparisonType.LR
+
     LR_TRAIN_ACC = 'lr_train_acc'
     LR_TEST_ACC = 'lr_test_acc'
     LR_WEIGHT = 'lr_weight'
     LR_TEST_ACC_THRESH = .05  # offset from .5
 
-    @classmethod
-    def compare(cls, *datasets):
-        cls.validate_datasets(*datasets)
-        [ds1, ds2] = datasets
+    def compare(self) -> Result:
+        self.validate_datasets(
+            *self.datasets,
+            groupby_fields=self.groupby_fields)
+        [ds1, ds2] = self.datasets
         df1, df2 = ds1.df, ds2.df
         lr_feat1, lr_feat2 = df1.values, df2.values
 
@@ -50,17 +55,16 @@ class LRComparison(Comparison):
         res = {}
         for i, col in enumerate(df1.columns):
             res[col] = {
-                cls.LR_TRAIN_ACC: lr_train_acc,
-                cls.LR_TEST_ACC: lr_test_acc,
-                cls.LR_WEIGHT: lr_weights[i]
+                self.LR_TRAIN_ACC: lr_train_acc,
+                self.LR_TEST_ACC: lr_test_acc,
+                self.LR_WEIGHT: lr_weights[i]
                 }
         
         res_df = pd.DataFrame.from_dict(res, orient='columns')
-        return res_df
+        return Result(df=res_df, comparison_spec=self.spec)
 
-    @classmethod
-    def shift_detected(cls, *datasets):
-        res = cls.compare(*datasets)
-        test_accs = res.loc[cls.LR_TEST_ACC].values
+    def shift_detected(self):
+        res = self.compare().df
+        test_accs = res.loc[self.LR_TEST_ACC].values
         discrim = np.abs(0.5 - test_accs)
-        return np.any(discrim > cls.LR_TEST_ACC_THRESH)
+        return np.any(discrim > self.LR_TEST_ACC_THRESH)
