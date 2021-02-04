@@ -13,7 +13,9 @@ class KSComparison(Comparison):
     KS_PVAL_THRESH = .05 
 
     @classmethod
-    def compare(cls, *datasets: List[Dataset]) -> pd.DataFrame:
+    def compare(cls, 
+            *datasets: List[Dataset],
+            groupby_fields: List[str] = None) -> pd.DataFrame:
         cls.validate_datasets(*datasets)
         [ds1, ds2] = datasets
         df1, df2 = ds1.df, ds2.df
@@ -26,7 +28,9 @@ class KSComparison(Comparison):
         return res_df
 
     @classmethod
-    def shift_detected(cls, *datasets: List[Dataset]) -> bool:
+    def shift_detected(cls, 
+            *datasets: List[Dataset],
+            groupby_fields: List[str] = None) -> bool:
         """Looks for shift only using pvalues, as this should contain 
             all necessary information for shift detection."""
         diff = cls.compare(*datasets)

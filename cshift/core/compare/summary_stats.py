@@ -40,7 +40,9 @@ class SummaryStatsComparison(Comparison):
             return desc.loc[cls.DIFF_FIELDS]
 
     @classmethod
-    def shift_detected(cls, *datasets: List[Dataset]) -> bool:
+    def shift_detected(cls, 
+            *datasets: List[Dataset],
+            groupby_fields: List[str] = None) -> bool:
         diff = cls.compare(*datasets)
         zeros = np.zeros_like(diff.values)
         return np.any(np.logical_not(np.isclose(diff.values, zeros, atol=cls.ATOL)))

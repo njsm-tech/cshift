@@ -12,9 +12,7 @@ DAYS = 14
 
 READ = True
 WRITE = False
-DATASETS_DIR = 'datasets'
-GEN_DATASETS_DIR = os.path.join(DATASETS_DIR, 'generated')
-KGL_DATASETS_DIR = os.path.join(DATASETS_DIR, 'kaggle')
+GEN_DATASETS_DIR = 'datasets/generated'
 
 def gen_normal_ds(ncols=None, locs=None, scales=None, size=None) -> Dataset:
     cols = []
@@ -27,7 +25,6 @@ def gen_normal_ds(ncols=None, locs=None, scales=None, size=None) -> Dataset:
 def gen_time_col(size=None, days=None):
     time_arr = np.arange(days).reshape(-1, 1)
     time_arr = np.repeat(time_col, size, axis=1).reshape(1, -1).T
-    print(time_arr)
     return Column(name='day', arr=time_arr)
 
 def gen_ts_normal_ds(ncols=None, locs=None, scales=None, size=None, days=None) -> Dataset:
@@ -50,7 +47,7 @@ def gen_col(dist_name=None, size=None, kwargs=None, name=None) -> Column:
 
 @pytest.fixture(scope='package')
 def normal_unsep_ds() -> Dataset:
-    base_path = os.path.join(DATASETS_DIR, 'normal_unsep_ds')
+    base_path = os.path.join(GEN_DATASETS_DIR, 'normal_unsep_ds')
     if READ:
         ds1 = Dataset.read(base_path + '1')
         ds2 = Dataset.read(base_path + '2')
@@ -66,7 +63,7 @@ def normal_unsep_ds() -> Dataset:
 
 @pytest.fixture(scope='package')
 def normal_sep_ds() -> Dataset:
-    base_path = os.path.join(DATASETS_DIR, 'normal_sep_ds')
+    base_path = os.path.join(GEN_DATASETS_DIR, 'normal_sep_ds')
     if READ:
         ds1 = Dataset.read(base_path + '1')
         ds2 = Dataset.read(base_path + '2')
@@ -84,7 +81,7 @@ def normal_sep_ds() -> Dataset:
 
 @pytest.fixture(scope='package')
 def ts_normal_unsep_ds() -> Dataset:
-    base_path = os.path.join(DATASETS_DIR, 'ts_normal_unsep_ds')
+    base_path = os.path.join(GEN_DATASETS_DIR, 'ts_normal_unsep_ds')
     if READ:
         ds1 = Dataset.read(base_path + '1')
         ds2 = Dataset.read(base_path + '2')
@@ -100,7 +97,7 @@ def ts_normal_unsep_ds() -> Dataset:
 
 @pytest.fixture(scope='package')
 def normal_sep_ds() -> Dataset:
-    base_path = os.path.join(DATASETS_DIR, 'normal_sep_ds')
+    base_path = os.path.join(GEN_DATASETS_DIR, 'normal_sep_ds')
     if READ:
         ds1 = Dataset.read(base_path + '1')
         ds2 = Dataset.read(base_path + '2')

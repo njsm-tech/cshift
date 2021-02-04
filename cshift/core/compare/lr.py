@@ -15,7 +15,9 @@ class LRComparison(Comparison):
     LR_TEST_ACC_THRESH = .05  # offset from .5
 
     @classmethod
-    def compare(cls, *datasets):
+    def compare(cls, 
+            *datasets: List[Dataset],
+            groupby_fields: List[str] = None):
         cls.validate_datasets(*datasets)
         [ds1, ds2] = datasets
         df1, df2 = ds1.df, ds2.df
@@ -59,7 +61,9 @@ class LRComparison(Comparison):
         return res_df
 
     @classmethod
-    def shift_detected(cls, *datasets):
+    def shift_detected(cls, 
+            *datasets: List[Dataset],
+            groupby_fields: List[str] = None):
         res = cls.compare(*datasets)
         test_accs = res.loc[cls.LR_TEST_ACC].values
         discrim = np.abs(0.5 - test_accs)

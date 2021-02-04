@@ -43,3 +43,7 @@ class Comparison:
             groupby_fields: List[str] = None) -> None:
         if len(datasets) != 2:
             raise ValueError("Require exactly 2 datasets; got %d" % len(datasets))
+
+    @property
+    def name(self):
+        return self.__class__.__name__

@@ -1,4 +1,6 @@
-from typing import List
+from typing import Dict, List
+
+import pandas as pd
 
 from .dataset import Dataset
 from .comparison import Comparison
@@ -15,5 +17,9 @@ class Pipeline:
         self.comparisons = comparisons
 
     def run(self) -> None:
-
-
+        results: Dict[str, pd.DataFrame] = {}
+        for comp in self.comparisons:
+            results[comp.name] = comp.compare(
+                    *datasets, 
+                    groupby_fields=self.groupby_fields)
+        return results
