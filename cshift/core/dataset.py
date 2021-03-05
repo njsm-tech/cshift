@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Tuple
+from typing import Dict, List
 
 import numpy as np
 import pandas as pd
@@ -10,17 +10,17 @@ from cshift.core.column import Column
 
 class Dataset:
     def __init__(self, df: pd.DataFrame):
-        self.df: pd.DataFrame = df
+        self.df = df
 
     @classmethod
-    def concatenate(cls, *dss):
+    def concatenate(cls, *dss: List[Dataset]):
         dfs = map(lambda ds: ds.df, dss)
         df = pd.concat(dfs, axis=0)
         return cls(df)
 
     @classmethod
     def from_array(cls, arr: np.array, colnames: List[str]):
-        df: pd.DataFrame = pd.DataFrame(data=arr, columns=colnames)
+        df = pd.DataFrame(data=arr, columns=colnames)
         return cls(df=df)
 
     @classmethod
