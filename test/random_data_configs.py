@@ -1,7 +1,7 @@
 import os
 import pytest
 
-from cshift.core import cshift_pb2 as pb2
+from cshift.proto import cshift_pb2 as pb2
 from cshift.core.column import Column
 from cshift.core.dataset import Dataset
 

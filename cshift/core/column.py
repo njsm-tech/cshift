@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import scipy.stats as ss
 
-from cshift.core import cshift_pb2 as pb2
+from cshift.proto import cshift_pb2 as pb2
 
 class Column:
     # TODO: add type? 

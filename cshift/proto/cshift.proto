@@ -1,5 +1,7 @@
 syntax = 'proto3';
 
+import "google/protobuf/any.proto";
+
 enum FeatureType {
     CONTINUOUS = 0;
     ORDINAL = 1;
@@ -12,6 +14,13 @@ enum DataType {
     INT = 1;
     BOOL = 2;
     STRING = 3;
+    LIST = 4;
+    MAP = 5;
+}
+
+enum StorageLocationType {
+    LOCAL = 0;
+    REMOTE = 1;
 }
 
 enum ComparisonType {
@@ -37,12 +46,30 @@ message ColumnSpec {
 }
 
 message DatasetSpec {
-    repeated ColumnSpec columns = 1;
+    string name = 1;
+    int64 id = 2;
+    StorageLocationType storage_location_type = 3;
+    repeated string tags = 4;
+
+    repeated google.protobuf.Any data = 10;
+    string ref = 11;
+    bool is_data_literal = 12;
+    bool is_data_ref = 13;
+
+    repeated ColumnSpec columns = 20;
 }
 
 message ComparisonSpec {
     repeated string index_fields = 1;
     repeated ComparisonType comparison_types = 2;
+    repeated DatasetSpec dataset_specs = 3;
+}
+
+message ModelSpec {
+    string name = 1;
+    int64 id = 2;
+
+    DatasetSpec training_set_spec = 10;
 }
 
 message Pipeline {
