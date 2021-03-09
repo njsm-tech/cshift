@@ -2,10 +2,11 @@ ROOT = '/'
 
 PROJECT = 'cshift'
 
-COMPARISONS = 'comparisons'
-COMPUTE = 'compute'
-DATASETS = 'datasets'
-MODELS = 'models'
+COMPARISONS = ROOT + 'comparisons'
+COMPUTE = ROOT + 'compute'
+DATASETS = ROOT + 'datasets'
+MODELS = ROOT + 'models'
+
 REGISTER_DATASET = '{}/register'.format(DATASETS)
 REGISTER_MODEL = '{}/register'.format(MODELS)
 SUBMIT_COMPARISON = '{}/submit'.format(COMPARISONS)

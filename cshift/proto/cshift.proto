@@ -19,8 +19,9 @@ enum DataType {
 }
 
 enum StorageLocationType {
-    LOCAL = 0;
-    REMOTE = 1;
+    IN_MEMORY = 0;
+    LOCAL = 1;
+    REMOTE = 2;
 }
 
 enum ComparisonType {
@@ -51,18 +52,26 @@ message DatasetSpec {
     StorageLocationType storage_location_type = 3;
     repeated string tags = 4;
 
-    repeated google.protobuf.Any data = 10;
-    string ref = 11;
-    bool is_data_literal = 12;
-    bool is_data_ref = 13;
+    message PandasDataFrameSpec {
+        repeated google.protobuf.Any index = 1;
+        repeated string columns = 2;
+        repeated google.protobuf.Any data = 3;
+    }
 
-    repeated ColumnSpec columns = 20;
+    PandasDataFrameSpec dataframe_spec = 10;
+    string ref = 11;
+
+    bool is_data_literal = 20;
+    bool is_data_ref = 21;
+
+    repeated ColumnSpec columns = 30;
 }
 
-message ComparisonSpec {
+message ComparisonPipelineSpec {
     repeated string index_fields = 1;
-    repeated ComparisonType comparison_types = 2;
-    repeated DatasetSpec dataset_specs = 3;
+    repeated string groupby_fields = 2;
+    repeated ComparisonType comparison_types = 3;
+    repeated DatasetSpec dataset_specs = 4;
 }
 
 message ModelSpec {
@@ -74,5 +83,5 @@ message ModelSpec {
 
 message Pipeline {
     repeated DatasetSpec dataset_specs = 1;
-    repeated ComparisonSpec comparison_specs = 2;
+    repeated ComparisonPipelineSpec comparison_specs = 2;
 }

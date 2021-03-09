@@ -8,8 +8,8 @@ COMPARISONS = 'comparisons'
 DATASETS = 'datasets'
 MODELS = 'models'
 
-datastore_client = datastore.client(project=PROJECT)
-pubsub_client = pubsub_v1.PublisherClient(project=PROJECT)
+datastore_client = datastore.Client(project=PROJECT)
+pubsub_client = pubsub_v1.PublisherClient()
 comparisons_topic_path = pubsub_client.topic_path(
     PROJECT, api_paths.COMPARISONS_PUBSUB_TOPIC)
 
@@ -28,7 +28,7 @@ def register_model(model_spec: pb2.ModelSpec):
     key = datastore_client.key(MODELS)
     put_proto(key, model_spec)
 
-def compare_datasets(comparison_spec: pb2.ComparisonSpec):
+def compare_datasets(comparison_spec: pb2.ComparisonPipelineSpec):
     pubsub_client.publish(
         comparisons_topic_path,
         comparison_spec.SerializeToString())

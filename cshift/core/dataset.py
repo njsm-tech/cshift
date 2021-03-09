@@ -7,6 +7,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 from cshift.core.column import Column
+from cshift.proto import cshift_pb2 as pb2
 
 class Dataset:
     def __init__(self, df: pd.DataFrame):
@@ -32,6 +33,21 @@ class Dataset:
         data = np.hstack(arrays)
         df = pd.DataFrame(data=data, columns=names)
         return cls(df)
+
+    @classmethod
+    def from_spec(cls, spec: pb2.DatasetSpec):
+        if spec.is_data_literal:
+            df = cls.df_from_spec(spec.dataframe_spec)
+            return cls(df)
+        if spec.is_data_ref:
+            raise NotImplementedError()
+
+    @staticmethod
+    def df_from_spec(spec: pb2.DatasetSpec.PandasDataFrameSpec):
+        return pd.DataFrame(
+            index=spec.index,
+            columns=spec.columns,
+            data=spec.values)
 
     @classmethod
     def read(cls, path, **kwargs):

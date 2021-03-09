@@ -1,11 +1,18 @@
+from cshift.client_service_common import api_paths
 from cshift.proto import cshift_pb2 as pb2
 
-class ClientModel:
+from .client_object import ClientObject
+from .client_dataset import ClientDataset
+
+class ClientModel(ClientObject):
     def __init__(self,
                  name: str = None,
-                 training_set_spec: pb2.DatasetSpec = None):
-        self.model_spec = pb2.ModelSpec(
+                 training_set: ClientDataset = None):
+        self.spec = pb2.ModelSpec(
             name=name,
-            training_set_spec=training_set_spec
-        )
+            training_set_spec=training_set.spec)
 
+    def register(self):
+        return self._post(
+            url=api_paths.REGISTER_MODEL,
+            spec=self.spec)
