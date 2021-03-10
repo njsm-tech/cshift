@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Dict, List
 
+from io import BytesIO
+
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -37,17 +39,15 @@ class Dataset:
     @classmethod
     def from_spec(cls, spec: pb2.DatasetSpec):
         if spec.is_data_literal:
-            df = cls.df_from_spec(spec.dataframe_spec)
+            df = cls.dataframe_from_parquet_bytes(spec.dataframe_parquet_bytes)
             return cls(df)
         if spec.is_data_ref:
             raise NotImplementedError()
 
     @staticmethod
-    def df_from_spec(spec: pb2.DatasetSpec.PandasDataFrameSpec):
-        return pd.DataFrame(
-            index=spec.index,
-            columns=spec.columns,
-            data=spec.values)
+    def dataframe_from_parquet_bytes(parquet_bytes: bytes):
+        buffer = BytesIO(parquet_bytes)
+        return pd.read_parquet(buffer)
 
     @classmethod
     def read(cls, path, **kwargs):

@@ -1,7 +1,5 @@
 syntax = 'proto3';
 
-import "google/protobuf/any.proto";
-
 enum FeatureType {
     CONTINUOUS = 0;
     ORDINAL = 1;
@@ -52,13 +50,7 @@ message DatasetSpec {
     StorageLocationType storage_location_type = 3;
     repeated string tags = 4;
 
-    message PandasDataFrameSpec {
-        repeated google.protobuf.Any index = 1;
-        repeated string columns = 2;
-        repeated google.protobuf.Any data = 3;
-    }
-
-    PandasDataFrameSpec dataframe_spec = 10;
+    bytes dataframe_parquet_bytes = 10;
     string ref = 11;
 
     bool is_data_literal = 20;

@@ -12,7 +12,6 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-from google.protobuf import any_pb2 as google_dot_protobuf_dot_any__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -21,9 +20,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0c\x63shift.proto\x1a\x19google/protobuf/any.proto\"\x91\x01\n\x10RandomColumnSpec\x12\x11\n\tdist_name\x18\x01 \x01(\t\x12\x0c\n\x04size\x18\x02 \x01(\x05\x12-\n\x06kwargs\x18\x03 \x03(\x0b\x32\x1d.RandomColumnSpec.KwargsEntry\x1a-\n\x0bKwargsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x02:\x02\x38\x01\"\x8c\x01\n\nColumnSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x03\x12\x1b\n\x05\x66type\x18\x03 \x01(\x0e\x32\x0c.FeatureType\x12\x18\n\x05\x64type\x18\x04 \x01(\x0e\x32\t.DataType\x12-\n\x12random_column_spec\x18\n \x01(\x0b\x32\x11.RandomColumnSpec\"\xee\x02\n\x0b\x44\x61tasetSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x03\x12\x33\n\x15storage_location_type\x18\x03 \x01(\x0e\x32\x14.StorageLocationType\x12\x0c\n\x04tags\x18\x04 \x03(\t\x12\x38\n\x0e\x64\x61taframe_spec\x18\n \x01(\x0b\x32 .DatasetSpec.PandasDataFrameSpec\x12\x0b\n\x03ref\x18\x0b \x01(\t\x12\x17\n\x0fis_data_literal\x18\x14 \x01(\x08\x12\x13\n\x0bis_data_ref\x18\x15 \x01(\x08\x12\x1c\n\x07\x63olumns\x18\x1e \x03(\x0b\x32\x0b.ColumnSpec\x1ao\n\x13PandasDataFrameSpec\x12#\n\x05index\x18\x01 \x03(\x0b\x32\x14.google.protobuf.Any\x12\x0f\n\x07\x63olumns\x18\x02 \x03(\t\x12\"\n\x04\x64\x61ta\x18\x03 \x03(\x0b\x32\x14.google.protobuf.Any\"\x96\x01\n\x16\x43omparisonPipelineSpec\x12\x14\n\x0cindex_fields\x18\x01 \x03(\t\x12\x16\n\x0egroupby_fields\x18\x02 \x03(\t\x12)\n\x10\x63omparison_types\x18\x03 \x03(\x0e\x32\x0f.ComparisonType\x12#\n\rdataset_specs\x18\x04 \x03(\x0b\x32\x0c.DatasetSpec\"N\n\tModelSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x03\x12\'\n\x11training_set_spec\x18\n \x01(\x0b\x32\x0c.DatasetSpec\"b\n\x08Pipeline\x12#\n\rdataset_specs\x18\x01 \x03(\x0b\x32\x0c.DatasetSpec\x12\x31\n\x10\x63omparison_specs\x18\x02 \x03(\x0b\x32\x17.ComparisonPipelineSpec*G\n\x0b\x46\x65\x61tureType\x12\x0e\n\nCONTINUOUS\x10\x00\x12\x0b\n\x07ORDINAL\x10\x01\x12\n\n\x06\x42INARY\x10\x02\x12\x0f\n\x0b\x43\x41TEGORICAL\x10\x03*G\n\x08\x44\x61taType\x12\t\n\x05\x46LOAT\x10\x00\x12\x07\n\x03INT\x10\x01\x12\x08\n\x04\x42OOL\x10\x02\x12\n\n\x06STRING\x10\x03\x12\x08\n\x04LIST\x10\x04\x12\x07\n\x03MAP\x10\x05*;\n\x13StorageLocationType\x12\r\n\tIN_MEMORY\x10\x00\x12\t\n\x05LOCAL\x10\x01\x12\n\n\x06REMOTE\x10\x02*3\n\x0e\x43omparisonType\x12\x11\n\rSUMMARY_STATS\x10\x00\x12\x06\n\x02KS\x10\x01\x12\x06\n\x02LR\x10\x02\x62\x06proto3'
-  ,
-  dependencies=[google_dot_protobuf_dot_any__pb2.DESCRIPTOR,])
+  serialized_pb=b'\n\x0c\x63shift.proto\"\x91\x01\n\x10RandomColumnSpec\x12\x11\n\tdist_name\x18\x01 \x01(\t\x12\x0c\n\x04size\x18\x02 \x01(\x05\x12-\n\x06kwargs\x18\x03 \x03(\x0b\x32\x1d.RandomColumnSpec.KwargsEntry\x1a-\n\x0bKwargsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x02:\x02\x38\x01\"\x8c\x01\n\nColumnSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x03\x12\x1b\n\x05\x66type\x18\x03 \x01(\x0e\x32\x0c.FeatureType\x12\x18\n\x05\x64type\x18\x04 \x01(\x0e\x32\t.DataType\x12-\n\x12random_column_spec\x18\n \x01(\x0b\x32\x11.RandomColumnSpec\"\xe4\x01\n\x0b\x44\x61tasetSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x03\x12\x33\n\x15storage_location_type\x18\x03 \x01(\x0e\x32\x14.StorageLocationType\x12\x0c\n\x04tags\x18\x04 \x03(\t\x12\x1f\n\x17\x64\x61taframe_parquet_bytes\x18\n \x01(\x0c\x12\x0b\n\x03ref\x18\x0b \x01(\t\x12\x17\n\x0fis_data_literal\x18\x14 \x01(\x08\x12\x13\n\x0bis_data_ref\x18\x15 \x01(\x08\x12\x1c\n\x07\x63olumns\x18\x1e \x03(\x0b\x32\x0b.ColumnSpec\"\x96\x01\n\x16\x43omparisonPipelineSpec\x12\x14\n\x0cindex_fields\x18\x01 \x03(\t\x12\x16\n\x0egroupby_fields\x18\x02 \x03(\t\x12)\n\x10\x63omparison_types\x18\x03 \x03(\x0e\x32\x0f.ComparisonType\x12#\n\rdataset_specs\x18\x04 \x03(\x0b\x32\x0c.DatasetSpec\"N\n\tModelSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x03\x12\'\n\x11training_set_spec\x18\n \x01(\x0b\x32\x0c.DatasetSpec\"b\n\x08Pipeline\x12#\n\rdataset_specs\x18\x01 \x03(\x0b\x32\x0c.DatasetSpec\x12\x31\n\x10\x63omparison_specs\x18\x02 \x03(\x0b\x32\x17.ComparisonPipelineSpec*G\n\x0b\x46\x65\x61tureType\x12\x0e\n\nCONTINUOUS\x10\x00\x12\x0b\n\x07ORDINAL\x10\x01\x12\n\n\x06\x42INARY\x10\x02\x12\x0f\n\x0b\x43\x41TEGORICAL\x10\x03*G\n\x08\x44\x61taType\x12\t\n\x05\x46LOAT\x10\x00\x12\x07\n\x03INT\x10\x01\x12\x08\n\x04\x42OOL\x10\x02\x12\n\n\x06STRING\x10\x03\x12\x08\n\x04LIST\x10\x04\x12\x07\n\x03MAP\x10\x05*;\n\x13StorageLocationType\x12\r\n\tIN_MEMORY\x10\x00\x12\t\n\x05LOCAL\x10\x01\x12\n\n\x06REMOTE\x10\x02*3\n\x0e\x43omparisonType\x12\x11\n\rSUMMARY_STATS\x10\x00\x12\x06\n\x02KS\x10\x01\x12\x06\n\x02LR\x10\x02\x62\x06proto3'
+)
 
 _FEATURETYPE = _descriptor.EnumDescriptor(
   name='FeatureType',
@@ -55,8 +53,8 @@ _FEATURETYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1036,
-  serialized_end=1107,
+  serialized_start=871,
+  serialized_end=942,
 )
 _sym_db.RegisterEnumDescriptor(_FEATURETYPE)
 
@@ -101,8 +99,8 @@ _DATATYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1109,
-  serialized_end=1180,
+  serialized_start=944,
+  serialized_end=1015,
 )
 _sym_db.RegisterEnumDescriptor(_DATATYPE)
 
@@ -132,8 +130,8 @@ _STORAGELOCATIONTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1182,
-  serialized_end=1241,
+  serialized_start=1017,
+  serialized_end=1076,
 )
 _sym_db.RegisterEnumDescriptor(_STORAGELOCATIONTYPE)
 
@@ -163,8 +161,8 @@ _COMPARISONTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1243,
-  serialized_end=1294,
+  serialized_start=1078,
+  serialized_end=1129,
 )
 _sym_db.RegisterEnumDescriptor(_COMPARISONTYPE)
 
@@ -222,8 +220,8 @@ _RANDOMCOLUMNSPEC_KWARGSENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=144,
-  serialized_end=189,
+  serialized_start=117,
+  serialized_end=162,
 )
 
 _RANDOMCOLUMNSPEC = _descriptor.Descriptor(
@@ -267,8 +265,8 @@ _RANDOMCOLUMNSPEC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=44,
-  serialized_end=189,
+  serialized_start=17,
+  serialized_end=162,
 )
 
 
@@ -327,55 +325,10 @@ _COLUMNSPEC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=192,
-  serialized_end=332,
+  serialized_start=165,
+  serialized_end=305,
 )
 
-
-_DATASETSPEC_PANDASDATAFRAMESPEC = _descriptor.Descriptor(
-  name='PandasDataFrameSpec',
-  full_name='DatasetSpec.PandasDataFrameSpec',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='index', full_name='DatasetSpec.PandasDataFrameSpec.index', index=0,
-      number=1, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='columns', full_name='DatasetSpec.PandasDataFrameSpec.columns', index=1,
-      number=2, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='data', full_name='DatasetSpec.PandasDataFrameSpec.data', index=2,
-      number=3, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=590,
-  serialized_end=701,
-)
 
 _DATASETSPEC = _descriptor.Descriptor(
   name='DatasetSpec',
@@ -414,9 +367,9 @@ _DATASETSPEC = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='dataframe_spec', full_name='DatasetSpec.dataframe_spec', index=4,
-      number=10, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      name='dataframe_parquet_bytes', full_name='DatasetSpec.dataframe_parquet_bytes', index=4,
+      number=10, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -451,7 +404,7 @@ _DATASETSPEC = _descriptor.Descriptor(
   ],
   extensions=[
   ],
-  nested_types=[_DATASETSPEC_PANDASDATAFRAMESPEC, ],
+  nested_types=[],
   enum_types=[
   ],
   serialized_options=None,
@@ -460,8 +413,8 @@ _DATASETSPEC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=335,
-  serialized_end=701,
+  serialized_start=308,
+  serialized_end=536,
 )
 
 
@@ -513,8 +466,8 @@ _COMPARISONPIPELINESPEC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=704,
-  serialized_end=854,
+  serialized_start=539,
+  serialized_end=689,
 )
 
 
@@ -559,8 +512,8 @@ _MODELSPEC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=856,
-  serialized_end=934,
+  serialized_start=691,
+  serialized_end=769,
 )
 
 
@@ -598,8 +551,8 @@ _PIPELINE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=936,
-  serialized_end=1034,
+  serialized_start=771,
+  serialized_end=869,
 )
 
 _RANDOMCOLUMNSPEC_KWARGSENTRY.containing_type = _RANDOMCOLUMNSPEC
@@ -607,11 +560,7 @@ _RANDOMCOLUMNSPEC.fields_by_name['kwargs'].message_type = _RANDOMCOLUMNSPEC_KWAR
 _COLUMNSPEC.fields_by_name['ftype'].enum_type = _FEATURETYPE
 _COLUMNSPEC.fields_by_name['dtype'].enum_type = _DATATYPE
 _COLUMNSPEC.fields_by_name['random_column_spec'].message_type = _RANDOMCOLUMNSPEC
-_DATASETSPEC_PANDASDATAFRAMESPEC.fields_by_name['index'].message_type = google_dot_protobuf_dot_any__pb2._ANY
-_DATASETSPEC_PANDASDATAFRAMESPEC.fields_by_name['data'].message_type = google_dot_protobuf_dot_any__pb2._ANY
-_DATASETSPEC_PANDASDATAFRAMESPEC.containing_type = _DATASETSPEC
 _DATASETSPEC.fields_by_name['storage_location_type'].enum_type = _STORAGELOCATIONTYPE
-_DATASETSPEC.fields_by_name['dataframe_spec'].message_type = _DATASETSPEC_PANDASDATAFRAMESPEC
 _DATASETSPEC.fields_by_name['columns'].message_type = _COLUMNSPEC
 _COMPARISONPIPELINESPEC.fields_by_name['comparison_types'].enum_type = _COMPARISONTYPE
 _COMPARISONPIPELINESPEC.fields_by_name['dataset_specs'].message_type = _DATASETSPEC
@@ -653,19 +602,11 @@ ColumnSpec = _reflection.GeneratedProtocolMessageType('ColumnSpec', (_message.Me
 _sym_db.RegisterMessage(ColumnSpec)
 
 DatasetSpec = _reflection.GeneratedProtocolMessageType('DatasetSpec', (_message.Message,), {
-
-  'PandasDataFrameSpec' : _reflection.GeneratedProtocolMessageType('PandasDataFrameSpec', (_message.Message,), {
-    'DESCRIPTOR' : _DATASETSPEC_PANDASDATAFRAMESPEC,
-    '__module__' : 'cshift_pb2'
-    # @@protoc_insertion_point(class_scope:DatasetSpec.PandasDataFrameSpec)
-    })
-  ,
   'DESCRIPTOR' : _DATASETSPEC,
   '__module__' : 'cshift_pb2'
   # @@protoc_insertion_point(class_scope:DatasetSpec)
   })
 _sym_db.RegisterMessage(DatasetSpec)
-_sym_db.RegisterMessage(DatasetSpec.PandasDataFrameSpec)
 
 ComparisonPipelineSpec = _reflection.GeneratedProtocolMessageType('ComparisonPipelineSpec', (_message.Message,), {
   'DESCRIPTOR' : _COMPARISONPIPELINESPEC,

@@ -1,5 +1,6 @@
 from typing import List, Union
 
+from io import BytesIO
 import re
 import sys
 
@@ -53,7 +54,7 @@ class ClientDataset(ClientObject):
 
         self.spec = pb2.DatasetSpec(
             name=name,
-            dataframe_spec=self._data_to_spec(data),
+            dataframe_parquet_bytes=self.dataframe_to_parquet_bytes(data),
             ref=ref,
             is_data_literal=is_data_literal,
             is_data_ref=is_data_ref,
@@ -61,13 +62,18 @@ class ClientDataset(ClientObject):
             tags=tags
         )
 
+    def dataframe_to_parquet_bytes(self, df) -> bytes:
+        buffer = BytesIO()
+        df.to_parquet(buffer)
+        return buffer.getvalue()
+
     def register(self):
         return self._post(
             url=api_paths.REGISTER_DATASET,
             spec=self.spec)
 
     def _data_to_spec(self, data):
-        return pb2.DatasetSpec.DataFrameSpec(
+        return pb2.DatasetSpec.PandasDataFrameSpec(
             index=data.index,
             columns=data.columns,
             data=data.values)
