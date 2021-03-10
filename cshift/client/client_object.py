@@ -1,12 +1,15 @@
 import requests
 
+from cshift.client_service_common.api_paths import urlify
+
 class ClientObject:
     def _req(self, type_, url, spec):
         if type_ == 'post':
             return self._post(url, spec)
 
     def _post(self, url, spec):
+        print(url, urlify(url))
         return requests.post(
-            url=url,
+            url=urlify(url),
             headers={'Content-Type': 'application/protobuf'},
             data=spec.SerializeToString())

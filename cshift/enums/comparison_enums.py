@@ -1,6 +1,6 @@
 from enum import Enum
 
-class SummaryStats:
+class SummaryStats(Enum):
     NULL_RATE = 1
     MEAN = 2
     MEDIAN = 3

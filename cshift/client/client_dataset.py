@@ -7,11 +7,15 @@ import sys
 import numpy as np
 import pandas as pd
 
+from google.cloud import datastore
+
 from cshift.proto import cshift_pb2 as pb2
 from cshift.client_service_common import api_paths
 import cshift.client_service_common.config as csc_config
 
 from .client_object import ClientObject
+
+datastore_client = datastore.Client(project=csc_config.PROJECT)
 
 class ClientDataset(ClientObject):
     def __init__(self,
@@ -62,8 +66,9 @@ class ClientDataset(ClientObject):
             tags=tags
         )
 
-    def dataframe_to_parquet_bytes(self, df) -> bytes:
+    def dataframe_to_parquet_bytes(self, df: pd.DataFrame) -> bytes:
         buffer = BytesIO()
+        df.columns = [str(c) for c in df.columns]
         df.to_parquet(buffer)
         return buffer.getvalue()
 
@@ -72,11 +77,8 @@ class ClientDataset(ClientObject):
             url=api_paths.REGISTER_DATASET,
             spec=self.spec)
 
-    def _data_to_spec(self, data):
-        return pb2.DatasetSpec.PandasDataFrameSpec(
-            index=data.index,
-            columns=data.columns,
-            data=data.values)
+    def _put_to_datastore(self, parquet_bytes: bytes):
+        kind =
 
     def _check_size(self, data):
         if sys.getsizeof(data) > csc_config.CLIENT_MAX_DATA_SIZE_BYTES:

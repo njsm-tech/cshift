@@ -1,6 +1,6 @@
-ROOT = '/'
+ENDPOINT = 'http://127.0.0.1:8080'
 
-PROJECT = 'cshift'
+ROOT = '/'
 
 COMPARISONS = ROOT + 'comparisons'
 COMPUTE = ROOT + 'compute'
@@ -16,3 +16,6 @@ COMPARISONS_SUBSCRIPTION_ID = 'comparisons-sub'
 COMPARISONS_ENDPOINT = 'https://us-central1-pubsub.googleapis.com/push'
 
 COMPUTE_COMPARISON = '{}/comparison'.format(COMPUTE)
+
+def urlify(s):
+    return ENDPOINT + s
