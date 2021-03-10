@@ -38,11 +38,9 @@ class Dataset:
 
     @classmethod
     def from_spec(cls, spec: pb2.DatasetSpec):
-        if spec.is_data_literal:
-            df = cls.dataframe_from_parquet_bytes(spec.dataframe_parquet_bytes)
-            return cls(df)
-        if spec.is_data_ref:
-            raise NotImplementedError()
+        parquet_bytes = 
+        df = cls.dataframe_from_parquet_bytes(parquet_bytes=)
+        return cls(df)
 
     @staticmethod
     def dataframe_from_parquet_bytes(parquet_bytes: bytes):

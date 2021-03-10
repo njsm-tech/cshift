@@ -50,11 +50,12 @@ message DatasetSpec {
     StorageLocationType storage_location_type = 3;
     repeated string tags = 4;
 
-    bytes dataframe_parquet_bytes = 10;
-    string ref = 11;
+    message GcsPath {
+        string bucket = 1;
+        string path_ext = 2;
+    }
 
-    bool is_data_literal = 20;
-    bool is_data_ref = 21;
+    GcsPath gcs_path = 10;
 
     repeated ColumnSpec columns = 30;
 }
@@ -73,7 +74,6 @@ message ModelSpec {
     DatasetSpec training_set_spec = 10;
 }
 
-message Pipeline {
-    repeated DatasetSpec dataset_specs = 1;
-    repeated ComparisonPipelineSpec comparison_specs = 2;
+message ResultSpec {
+
 }

@@ -1,21 +1,26 @@
 from typing import List, Union
 
 from io import BytesIO
+import os
 import re
 import sys
 
 import numpy as np
 import pandas as pd
 
-from google.cloud import datastore
+from google.cloud import datastore, storage
 
-from cshift.proto import cshift_pb2 as pb2
 from cshift.client_service_common import api_paths
 import cshift.client_service_common.config as csc_config
+from cshift.io import gcsio
+from cshift.proto import cshift_pb2 as pb2
 
 from .client_object import ClientObject
+from .client_config import ClientConfig
 
 datastore_client = datastore.Client(project=csc_config.PROJECT)
+gcs_client = storage.Client(project=csc_config.PROJECT)
+gcs_bucket = gcs_client.get_bucket(csc_config.DATASETS_BUCKET)
 
 class ClientDataset(ClientObject):
     def __init__(self,
@@ -26,6 +31,8 @@ class ClientDataset(ClientObject):
                  storage_location_type: str = 'in_memory',
                  name: str = None,
                  tags: List[str] = None):
+        self.config = ClientConfig.read()
+
         if (data is None) and (features is not None and labels is not None):
             data = pd.DataFrame(features)
             print(data, labels)
@@ -34,13 +41,21 @@ class ClientDataset(ClientObject):
         self._validate_xor(data, ref)
         self._check_size(data)
 
-        is_data_literal = data is not None
-        is_data_ref = ref is not None
+        self.name = name
+
+        self.is_data_literal = data is not None
+        self.is_data_ref = ref is not None
+
+        if self.is_data_literal:
+            self.dataframe_parquet_bytes = self.dataframe_to_parquet_bytes(data)
+            ref = self._gcs_path
+        else:
+            self.dataframe_parquet_bytes = None
 
         if storage_location_type is None:
-            if is_data_literal:
+            if self.is_data_literal:
                 storage_location_type = pb2.StorageLocationType.IN_MEMORY
-            elif is_data_ref:
+            elif self.is_data_ref:
                 if re.match(r'^gs://|^http', ref):
                     storage_location_type = pb2.StorageLocationType.REMOTE
                 else:
@@ -56,12 +71,11 @@ class ClientDataset(ClientObject):
             raise ValueError(
                 "Unrecognized storage_location_type %s" % storage_location_type)
 
+        self.storage_location_type = storage_location_type
+
         self.spec = pb2.DatasetSpec(
             name=name,
-            dataframe_parquet_bytes=self.dataframe_to_parquet_bytes(data),
             ref=ref,
-            is_data_literal=is_data_literal,
-            is_data_ref=is_data_ref,
             storage_location_type=storage_location_type,
             tags=tags
         )
@@ -73,12 +87,19 @@ class ClientDataset(ClientObject):
         return buffer.getvalue()
 
     def register(self):
+        if self.is_data_literal:
+            self._upload_to_gcs(
+                self.dataframe_parquet_bytes)
         return self._post(
             url=api_paths.REGISTER_DATASET,
             spec=self.spec)
 
-    def _put_to_datastore(self, parquet_bytes: bytes):
-        kind =
+    @property
+    def gcs_path(self) -> str:
+        return os.path.join(self.config.gcs_prefix, self.name)
+
+    def _upload_to_gcs(self, parquet_bytes: bytes, ref: str):
+        gcsio.upload(bytes=parquet_bytes, ref=ref)
 
     def _check_size(self, data):
         if sys.getsizeof(data) > csc_config.CLIENT_MAX_DATA_SIZE_BYTES:

@@ -8,7 +8,6 @@ class ClientObject:
             return self._post(url, spec)
 
     def _post(self, url, spec):
-        print(url, urlify(url))
         return requests.post(
             url=urlify(url),
             headers={'Content-Type': 'application/protobuf'},

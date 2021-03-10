@@ -1,5 +1,7 @@
 from google.cloud import datastore, pubsub_v1
+from google.protobuf.json_format import MessageToDict
 
+from cshift import enums
 from cshift.proto import cshift_pb2 as pb2
 from cshift.client_service_common import api_paths
 
@@ -15,20 +17,23 @@ comparisons_topic_path = pubsub_client.topic_path(
 
 def put_proto(key, msg):
     ent = datastore.Entity(key)
-    for descriptor in msg.DESCRIPTOR.fields:
-        value = getattr(msg, descriptor.name, None)
-        ent[descriptor.name] = value
+    d = MessageToDict(msg)
+    for key, value in d.items():
+        ent[key] = value
     datastore_client.put(ent)
 
 def register_dataset(dataset_spec: pb2.DatasetSpec):
-    key = datastore_client.key(DATASETS)
+    key = datastore_client.key(DATASETS, dataset_spec.name)
     put_proto(key, dataset_spec)
+    return enums.ResponseCode.SUCCESS
 
 def register_model(model_spec: pb2.ModelSpec):
-    key = datastore_client.key(MODELS)
+    key = datastore_client.key(MODELS, model_spec.name)
     put_proto(key, model_spec)
+    return enums.ResponseCode.SUCCESS
 
 def compare_datasets(comparison_spec: pb2.ComparisonPipelineSpec):
     pubsub_client.publish(
         comparisons_topic_path,
         comparison_spec.SerializeToString())
+    return enums.ResponseCode.TASK_QUEUED
