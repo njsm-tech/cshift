@@ -6,8 +6,6 @@ import sys
 import numpy as np
 import pandas as pd
 
-from google.cloud import datastore, storage
-
 from cshift.client_service_common import api_paths
 import cshift.client_service_common.config as csc_config
 from cshift.dao.artifact_dao import ArtifactDao
@@ -16,10 +14,6 @@ from cshift.proto import cshift_pb2 as pb2
 
 from .client_object import ClientObject
 from .client_config import ClientConfig
-
-datastore_client = datastore.Client(project=csc_config.PROJECT)
-gcs_client = storage.Client(project=csc_config.PROJECT)
-gcs_bucket = gcs_client.get_bucket(csc_config.DATASETS_BUCKET)
 
 class ClientDataset(ClientObject):
     def __init__(self,
