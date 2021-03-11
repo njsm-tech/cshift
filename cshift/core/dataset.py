@@ -9,6 +9,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 from cshift.core.column import Column
+from cshift.dao.artifact_dao import ArtifactDao
 from cshift.proto import cshift_pb2 as pb2
 
 class Dataset:
@@ -38,8 +39,9 @@ class Dataset:
 
     @classmethod
     def from_spec(cls, spec: pb2.DatasetSpec):
-        parquet_bytes = 
-        df = cls.dataframe_from_parquet_bytes(parquet_bytes=)
+        dao = ArtifactDao(spec=spec.artifact_spec)
+        parquet_bytes = dao.download()
+        df = cls.dataframe_from_parquet_bytes(parquet_bytes=parquet_bytes)
         return cls(df)
 
     @staticmethod

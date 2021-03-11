@@ -2,6 +2,7 @@ from typing import List
 
 from cshift.proto import cshift_pb2 as pb2
 
+from .compare import comparison_from_enum
 from .compare.comparison import Comparison
 from .dataset import Dataset
 from .result import Result
@@ -25,12 +26,12 @@ class ComparisonPipeline:
             datasets.append(ds)
         comparisons = []
         for comparison_type in spec.comparison_types:
-            comp = Comparison.from_enum(comparison_type)
+            comp = comparison_from_enum(comparison_type)
             comparisons.append(comp)
         return cls(
             datasets=datasets,
-            index_fields=spec.index_fields,
-            groupby_fields=spec.groupby_fields,
+            index_fields=list(spec.index_fields),
+            groupby_fields=list(spec.groupby_fields),
             comparisons=comparisons)
 
     def run(self) -> Result:

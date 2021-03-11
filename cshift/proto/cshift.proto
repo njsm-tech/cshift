@@ -16,16 +16,16 @@ enum DataType {
     MAP = 5;
 }
 
-enum StorageLocationType {
-    IN_MEMORY = 0;
-    LOCAL = 1;
-    REMOTE = 2;
-}
-
 enum ComparisonType {
     SUMMARY_STATS = 0;
     KS = 1;
     LR = 2;
+}
+
+enum ArtifactType {
+    DATASET = 0;
+    MODEL = 1;
+    RESULT = 2;
 }
 
 message RandomColumnSpec {
@@ -44,18 +44,24 @@ message ColumnSpec {
     RandomColumnSpec random_column_spec = 10;
 }
 
+message GcsPath {
+    string bucket = 1;
+    string path_ext = 2;
+}
+
+message ArtifactSpec {
+    string name = 1;
+    int64 id = 2;
+    ArtifactType artifact_type = 3;
+    GcsPath gcs_path = 4;
+}
+
 message DatasetSpec {
     string name = 1;
     int64 id = 2;
-    StorageLocationType storage_location_type = 3;
-    repeated string tags = 4;
+    repeated string tags = 3;
 
-    message GcsPath {
-        string bucket = 1;
-        string path_ext = 2;
-    }
-
-    GcsPath gcs_path = 10;
+    ArtifactSpec artifact_spec = 10;
 
     repeated ColumnSpec columns = 30;
 }
@@ -75,5 +81,6 @@ message ModelSpec {
 }
 
 message ResultSpec {
-
+    ComparisonPipelineSpec comparison_pipeline_spec = 1;
+    ArtifactSpec artifact_spec = 2;
 }

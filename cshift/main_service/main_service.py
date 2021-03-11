@@ -27,7 +27,7 @@ def register_model():
 def submit_comparison():
     spec = pb2.ComparisonPipelineSpec()
     spec.ParseFromString(request.data)
-    return lib.compare_datasets(spec)
+    return lib.submit_comparison(spec)
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8080, debug=True)
+    app.run(host=api_paths.HOST, port=api_paths.MAIN_PORT, debug=True)

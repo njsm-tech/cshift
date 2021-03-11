@@ -1,6 +1,6 @@
 import requests
 
-from cshift.client_service_common.api_paths import urlify
+from cshift.client_service_common.api_paths import main_service_urlify
 
 class ClientObject:
     def _req(self, type_, url, spec):
@@ -9,6 +9,6 @@ class ClientObject:
 
     def _post(self, url, spec):
         return requests.post(
-            url=urlify(url),
+            url=main_service_urlify(url),
             headers={'Content-Type': 'application/protobuf'},
             data=spec.SerializeToString())

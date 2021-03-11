@@ -5,8 +5,8 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
-from .comparison import Comparison
-from ..dataset import Dataset
+from cshift.core.compare.comparison import Comparison
+from cshift.core.dataset import Dataset
 
 class LRComparison(Comparison):
     LR_TRAIN_ACC = 'lr_train_acc'

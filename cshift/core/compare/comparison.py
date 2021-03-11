@@ -1,22 +1,13 @@
+from __future__ import annotations
+
 from typing import List
 
 import pandas as pd
 
-from cshift.core import compare
 from cshift.core.dataset import Dataset
-from cshift.proto import cshift_pb2 as pb2
 
 class Comparison:
     ATOL = 1e-1  # absolute tolerance for np.isclose
-
-    @staticmethod
-    def from_enum(comparison_type: pb2.ComparisonType):
-        if comparison_type == pb2.ComparisonType.SUMMARY_STATS:
-            return compare.summary_stats.SummaryStatsComparison
-        elif comparison_type == pb2.ComparisonType.KS:
-            return compare.ks.KSComparison
-        elif comparison_type == pb2.ComparisonType.LR:
-            return compare.lr.LRComparison
 
     @classmethod
     def compare(cls, 

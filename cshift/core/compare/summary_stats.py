@@ -3,9 +3,9 @@ from typing import List
 import numpy as np
 import pandas as pd
 
-from .comparison import Comparison
-from ..dataset import Dataset
-from ..enums import SummaryStats
+from cshift.core.compare.comparison import Comparison
+from cshift.core.dataset import Dataset
+from cshift.enums import SummaryStats
 
 class SummaryStatsComparison(Comparison):
     NUM_QUANTILES = 20  # 0-100
@@ -21,23 +21,24 @@ class SummaryStatsComparison(Comparison):
             groupby_fields: List[str] = None) -> pd.DataFrame:
         cls.validate_datasets(*datasets, groupby_fields=groupby_fields)
         [ds1, ds2] = datasets
-        ds1_summary = cls.compute_summary_stats(ds1, 
-                groupby_fields=groupby_fields)
-        ds2_summary = cls.compute_summary_stats(ds2,
-                groupby_fields=groupby_fields)
+        ds1_summary = cls.compute_summary_stats(
+            ds1, groupby_fields=groupby_fields)
+        ds2_summary = cls.compute_summary_stats(
+            ds2, groupby_fields=groupby_fields)
         diff = ds1_summary - ds2_summary
         return diff
 
     @classmethod
-    def compute_summary_stats(cls, dataset: Dataset, 
+    def compute_summary_stats(cls,
+            dataset: Dataset,
             groupby_fields: List[str] = None) -> pd.DataFrame:
         df = dataset.df
         if groupby_fields:
             desc = df.groupby(groupby_fields).describe(percentiles=cls.PERCENTILES_NORMALIZED)
-            return desc.loc[cls.DIFF_FIELDS]
         else:
             desc = df.describe(percentiles=cls.PERCENTILES_NORMALIZED)
-            return desc.loc[cls.DIFF_FIELDS]
+        print(desc)
+        return desc.loc[cls.DIFF_FIELDS]
 
     @classmethod
     def shift_detected(cls, 

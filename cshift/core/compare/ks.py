@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 import scipy.stats as ss
 
-from .comparison import Comparison
-from ..dataset import Dataset
+from cshift.core.compare.comparison import Comparison
+from cshift.core.dataset import Dataset
 
 class KSComparison(Comparison):
     KS_STAT = 'ks_stat'

@@ -1,4 +1,8 @@
-ENDPOINT = 'http://127.0.0.1:8080'
+HOST = '127.0.0.1'
+MAIN_PORT = 8080
+COMPUTE_PORT = 8081
+MAIN_ENDPOINT = f'http://{HOST}:{MAIN_PORT}'
+COMPUTE_ENDPOINT = f'http://{HOST}:{COMPUTE_PORT}'
 
 ROOT = '/'
 
@@ -17,5 +21,8 @@ COMPARISONS_ENDPOINT = 'https://us-central1-pubsub.googleapis.com/push'
 
 COMPUTE_COMPARISON = '{}/comparison'.format(COMPUTE)
 
-def urlify(s):
-    return ENDPOINT + s
+def compute_service_urlify(s):
+    return COMPUTE_ENDPOINT + s
+
+def main_service_urlify(s):
+    return MAIN_ENDPOINT + s

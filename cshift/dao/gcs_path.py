@@ -6,8 +6,12 @@ class GcsPath:
         self.path_ext = path_ext
 
     @classmethod
-    def from_message(cls, msg: pb2.DatasetSpec.GcsPath):
+    def from_message(cls, msg: pb2.GcsPath):
         return cls(bucket=msg.bucket, path_ext=msg.path_ext)
+
+    def to_message(self):
+        return pb2.GcsPath(
+            bucket=self.bucket, path_ext=self.path_ext)
 
     @property
     def path(self) -> str:
