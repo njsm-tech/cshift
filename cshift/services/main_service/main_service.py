@@ -3,7 +3,7 @@ from flask import Flask, request
 from cshift.client_service_common import api_paths
 from cshift.proto import cshift_pb2 as pb2
 
-import lib
+from cshift.services.main_service import lib
 
 app = Flask(__name__)
 

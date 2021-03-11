@@ -23,7 +23,7 @@ class ClientDataset(ClientObject):
                  ref: str = None,
                  name: str = None,
                  tags: List[str] = None):
-        self.config = ClientConfig.read()
+        self.config = ClientConfig.read_or_default()
         self.name = name
 
         _path_ext = "{username}/{dataset_name}".format(
