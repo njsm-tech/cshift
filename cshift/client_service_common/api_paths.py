@@ -13,6 +13,8 @@ MODELS = ROOT + 'models'
 RESULTS = ROOT + 'results'
 
 GET_RESULT = '{}/get'.format(RESULTS)
+POLL_RESULT = '{}/poll'.format(RESULTS)
+RECORD_RESULT = '{}/record'.format(RESULTS)
 REGISTER_DATASET = '{}/register'.format(DATASETS)
 REGISTER_MODEL = '{}/register'.format(MODELS)
 SUBMIT_COMPARISON = '{}/submit'.format(COMPARISONS)

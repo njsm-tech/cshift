@@ -1,6 +1,6 @@
 from typing import List
 
-from cshift.proto import messages_pb2
+from cshift.proto import cshift_pb2 as pb2
 
 from .compare import comparison_from_enum
 from .compare.comparison import Comparison
@@ -20,7 +20,7 @@ class ComparisonPipeline:
         self.comparisons = comparisons
 
     @classmethod
-    def from_spec(cls, spec: messages_pb2.ComparisonPipelineSpec):
+    def from_spec(cls, spec: pb2.ComparisonPipelineSpec):
         datasets = []
         for dataset_spec in spec.dataset_specs:
             ds = Dataset.from_spec(dataset_spec)

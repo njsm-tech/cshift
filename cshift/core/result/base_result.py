@@ -3,12 +3,12 @@ from __future__ import annotations
 from cshift.client_service_common import config as csc_config
 from cshift.dao.artifact import Artifact
 from cshift.dao.artifact_gcs_path import ArtifactGcsPath
-from cshift.proto import enums_pb2, messages_pb2
+from cshift.proto import cshift_pb2 as pb2
 
 class BaseResult:
     def __init__(self,
                  username: str = None,
-                 comparison_pipeline_spec: messages_pb2.ComparisonPipelineSpec = None,
+                 comparison_pipeline_spec: pb2.ComparisonPipelineSpec = None,
                  **kwargs):
         self.comparison_pipeline_spec = comparison_pipeline_spec
         self.name = BaseResult.make_name(comparison_pipeline_spec)
@@ -21,9 +21,9 @@ class BaseResult:
             bucket=_bucket,
             path_ext=_path_ext)
 
-        artifact_spec = messages_pb2.ArtifactSpec(
+        artifact_spec = pb2.ArtifactSpec(
             name=self.name,
-            artifact_type=enums_pb2.ArtifactType.RESULT,
+            artifact_type=pb2.ArtifactType.RESULT,
             gcs_path=self.gcs_path.to_message())
         self.artifact = Artifact(artifact_spec)
 
@@ -33,7 +33,7 @@ class BaseResult:
 
     @classmethod
     def make_name(cls,
-                   comparison_pipeline_spec: messages_pb2.ComparisonPipelineSpec
+                   comparison_pipeline_spec: pb2.ComparisonPipelineSpec
                    ) -> str:
         return "{}-{}".format(
             comparison_pipeline_spec.name,

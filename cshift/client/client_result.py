@@ -1,8 +1,13 @@
+import time
+
 from cshift.client_service_common import api_paths
-from cshift.proto import enums_pb2, messages_pb2
+from cshift import enums
+from cshift.proto import cshift_pb2 as pb2
 
 from .client_comparison_pipeline import ClientComparisonPipeline
 from .client_object import ClientObject
+
+WAIT_SLEEP = 2
 
 class ClientResult(ClientObject):
     def __init__(self,
@@ -10,15 +15,30 @@ class ClientResult(ClientObject):
                  **kwargs):
         super().__init__(**kwargs)
         self.comparison_pipeline = comparison_pipeline
-        artifact_spec = messages_pb2.ArtifactSpec(
-            artifact_type=enums_pb2.ArtifactType.RESULT)
-        self.spec = messages_pb2.ResultSpec(
+        artifact_spec = pb2.ArtifactSpec(
+            artifact_type=pb2.ArtifactType.RESULT)
+        self.spec = pb2.ResultSpec(
             comparison_pipeline_spec=comparison_pipeline.spec,
             artifact_spec=artifact_spec)
 
-    def wait(self):
+    def _get_wait(self):
         # poll main service periodically to see if result is available yet
-        pass
+        res = self.request_get(url=api_paths.POLL_RESULT, spec=self.spec)
+        res = enums.ResponseCode.from_value(res)
+        while res == enums.ResponseCode.TASK_QUEUED:
+            time.sleep(WAIT_SLEEP)
+            res = self.request_get(url=api_paths.POLL_RESULT, spec=self.spec)
+        if res == enums.ResponseCode.FAILED:
+            raise Exception('Task failed')
+        elif res == enums.ResponseCode.SUCCESS:
+            return self.get(wait=False)
+        else:
+            raise Exception('Response not recognized %s' % res)
 
-    def get(self):
+    def poll(self):
+        return self.request_get(url=api_paths.POLL_RESULT, spec=self.spec)
+
+    def get(self, wait=True):
+        if wait:
+            return self._get_wait()
         return self.request_get(url=api_paths.GET_RESULT, spec=self.spec)

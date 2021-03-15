@@ -1,5 +1,5 @@
 from cshift.client_service_common import api_paths
-from cshift.proto import messages_pb2
+from cshift.proto import cshift_pb2 as pb2
 
 from .client_config import ClientConfig
 from .client_object import ClientObject
@@ -11,7 +11,7 @@ class ClientModel(ClientObject):
                  config: ClientConfig = None,
                  training_set: ClientDataset = None):
         super().__init__(config=config)
-        self.spec = messages_pb2.ModelSpec(
+        self.spec = pb2.ModelSpec(
             name=name,
             training_set_spec=training_set.spec)
 

@@ -9,7 +9,7 @@ from cshift.client_service_common import api_paths
 import cshift.client_service_common.config as csc_config
 from cshift.dao.artifact import Artifact
 from cshift.dao.artifact_gcs_path import ArtifactGcsPath
-from cshift.proto import enums_pb2, messages_pb2
+from cshift.proto import cshift_pb2 as pb2
 
 from .client_object import ClientObject
 from .client_config import ClientConfig
@@ -35,7 +35,7 @@ class ClientDataset(ClientObject):
             bucket=csc_config.DATASETS_BUCKET,
             username=config.username,
             project=config.project,
-            artifact_type=enums_pb2.ArtifactType.DATASET,
+            artifact_type=pb2.ArtifactType.DATASET,
             artifact_name=name,
             artifact_version=version)
 
@@ -55,14 +55,14 @@ class ClientDataset(ClientObject):
         else:
             self.dataframe_parquet_bytes = None
 
-        artifact_spec = messages_pb2.ArtifactSpec(
+        artifact_spec = pb2.ArtifactSpec(
             name=name,
-            artifact_type=enums_pb2.ArtifactType.DATASET,
+            artifact_type=pb2.ArtifactType.DATASET,
             gcs_path=self.gcs_path.to_message(),
-            deserialized_type=enums_pb2.ArtifactDeserializedType.PANDAS_DATAFRAME,
-            serialization_format=enums_pb2.ArtifactSerializationFormat.PARQUET
+            deserialized_type=pb2.ArtifactDeserializedType.PANDAS_DATAFRAME,
+            serialization_format=pb2.ArtifactSerializationFormat.PARQUET
         )
-        self.spec = messages_pb2.DatasetSpec(
+        self.spec = pb2.DatasetSpec(
             name=name,
             tags=tags,
             artifact_spec=artifact_spec
