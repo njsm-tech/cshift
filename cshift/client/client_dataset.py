@@ -8,30 +8,36 @@ import pandas as pd
 from cshift.client_service_common import api_paths
 import cshift.client_service_common.config as csc_config
 from cshift.dao.artifact import Artifact
-from cshift.dao.gcs_path import GcsPath
-from cshift.proto import cshift_pb2 as pb2
+from cshift.dao.artifact_gcs_path import ArtifactGcsPath
+from cshift.proto import enums_pb2, messages_pb2
 
 from .client_object import ClientObject
 from .client_config import ClientConfig
 
 class ClientDataset(ClientObject):
     def __init__(self,
+                 config: ClientConfig = None,
                  data: Union[np.ndarray, pd.DataFrame] = None,
                  features: Union[np.ndarray, pd.DataFrame] = None,
                  labels: Union[np.ndarray, pd.DataFrame] = None,
                  ref: str = None,
                  name: str = None,
-                 tags: List[str] = None):
-        self.config = ClientConfig.read_or_default()
+                 tags: List[str] = None,
+                 version: str = None):
+        super().__init__(config=config)
         self.name = name
 
         _path_ext = "{username}/{path_prefix}/{dataset_name}".format(
             username=self.config.username,
             path_prefix=csc_config.DATASETS_PATH_PREFIX,
             dataset_name=self.name)
-        self.gcs_path = GcsPath(
+        self.gcs_path = ArtifactGcsPath(
             bucket=csc_config.DATASETS_BUCKET,
-            path_ext=_path_ext)
+            username=config.username,
+            project=config.project,
+            artifact_type=enums_pb2.ArtifactType.DATASET,
+            artifact_name=name,
+            artifact_version=version)
 
         if (data is None) and (features is not None and labels is not None):
             data = pd.DataFrame(features)
@@ -49,12 +55,14 @@ class ClientDataset(ClientObject):
         else:
             self.dataframe_parquet_bytes = None
 
-        artifact_spec = pb2.ArtifactSpec(
+        artifact_spec = messages_pb2.ArtifactSpec(
             name=name,
-            artifact_type=pb2.ArtifactType.DATASET,
-            gcs_path=self.gcs_path.to_message()
+            artifact_type=enums_pb2.ArtifactType.DATASET,
+            gcs_path=self.gcs_path.to_message(),
+            deserialized_type=enums_pb2.ArtifactDeserializedType.PANDAS_DATAFRAME,
+            serialization_format=enums_pb2.ArtifactSerializationFormat.PARQUET
         )
-        self.spec = pb2.DatasetSpec(
+        self.spec = messages_pb2.DatasetSpec(
             name=name,
             tags=tags,
             artifact_spec=artifact_spec
@@ -62,8 +70,8 @@ class ClientDataset(ClientObject):
 
     def register(self):
         if self.is_data_literal:
-            dao = Artifact(self.spec.artifact_spec)
-            dao.upload(bytes=self.dataframe_parquet_bytes)
+            artifact = Artifact(self.spec.artifact_spec)
+            artifact.upload(bytes=self.dataframe_parquet_bytes)
         return self.request_post(
             url=api_paths.REGISTER_DATASET,
             spec=self.spec)

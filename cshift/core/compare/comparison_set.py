@@ -4,10 +4,11 @@ from typing import List
 
 import pandas as pd
 
-from .comparison import Comparison
-from .ks import KSComparison
-from .lr import LRComparison
-from .summary_stats import SummaryStatsComparison
+from cshift.core.dataset import Dataset
+from cshift.core.compare.comparison import Comparison
+from cshift.core.compare.ks import KSComparison
+from cshift.core.compare.lr import LRComparison
+from cshift.core.compare.summary_stats import SummaryStatsComparison
 
 class ComparisonSet(Comparison):
     """

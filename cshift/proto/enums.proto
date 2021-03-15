@@ -1,0 +1,40 @@
+syntax = 'proto3';
+
+package cshift.enums;
+
+enum FeatureType {
+    CONTINUOUS = 0;
+    ORDINAL = 1;
+    BINARY = 2;
+    CATEGORICAL = 3;
+}
+
+enum DataType {
+    FLOAT = 0;
+    INT = 1;
+    BOOL = 2;
+    STRING = 3;
+    LIST = 4;
+    MAP = 5;
+}
+
+enum ComparisonType {
+    SUMMARY_STATS = 0;
+    KS = 1;
+    LR = 2;
+}
+
+enum ArtifactType {
+    DATASET = 0;
+    MODEL = 1;
+    RESULT = 2;
+}
+
+enum ArtifactDeserializedType {
+    // the type the artifact takes when deserialized
+    PANDAS_DATAFRAME = 0;
+}
+
+enum ArtifactSerializationFormat {
+    PARQUET = 0;
+}

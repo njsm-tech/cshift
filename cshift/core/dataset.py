@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 
 from cshift.core.column import Column
 from cshift.dao.artifact import Artifact
-from cshift.proto import cshift_pb2 as pb2
+from cshift.proto import messages_pb2
 
 class Dataset:
     def __init__(self, df: pd.DataFrame):
@@ -36,11 +36,11 @@ class Dataset:
         return cls(df)
 
     @classmethod
-    def from_spec(cls, spec: pb2.DatasetSpec):
-        dao = Artifact(spec=spec.artifact_spec)
-        parquet_bytes = dao.download()
-        df = dao.dataframe_from_parquet_bytes(parquet_bytes=parquet_bytes)
-        return cls(df)
+    def from_spec(cls, spec: messages_pb2.DatasetSpec):
+        artifact = Artifact(spec=spec.artifact_spec)
+        parquet_bytes = artifact.download()
+        df = artifact.dataframe_from_parquet_bytes(parquet_bytes=parquet_bytes)
+        return cls(df=df)
 
     @classmethod
     def read(cls, path, **kwargs):

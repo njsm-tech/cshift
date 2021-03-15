@@ -1,32 +1,7 @@
 syntax = 'proto3';
 
-enum FeatureType {
-    CONTINUOUS = 0;
-    ORDINAL = 1;
-    BINARY = 2;
-    CATEGORICAL = 3;
-}
-
-enum DataType {
-    FLOAT = 0;
-    INT = 1;
-    BOOL = 2;
-    STRING = 3;
-    LIST = 4;
-    MAP = 5;
-}
-
-enum ComparisonType {
-    SUMMARY_STATS = 0;
-    KS = 1;
-    LR = 2;
-}
-
-enum ArtifactType {
-    DATASET = 0;
-    MODEL = 1;
-    RESULT = 2;
-}
+package cshift.messages;
+import 'enums.proto';
 
 message RandomColumnSpec {
     // spec for generating random data using scipy.stats 
@@ -38,28 +13,35 @@ message RandomColumnSpec {
 message ColumnSpec {
     string name = 1;
     int64 id = 2;
-    FeatureType ftype = 3;
-    DataType dtype = 4;
+    cshift.enums.FeatureType ftype = 3;
+    cshift.enums.DataType dtype = 4;
 
     RandomColumnSpec random_column_spec = 10;
 }
 
-message GcsPath {
+message ArtifactGcsPath {
     string bucket = 1;
-    string path_ext = 2;
+    string username = 2;
+    string project = 3;
+    cshift.enums.ArtifactType artifact_type = 4;
+    string artifact_name = 5;
+    string artifact_version = 6;
 }
 
 message ArtifactSpec {
     string name = 1;
-    int64 id = 2;
-    ArtifactType artifact_type = 3;
-    GcsPath gcs_path = 4;
-    bytes dataframe_parquet_bytes = 5;
+    string version = 2;
+    cshift.enums.ArtifactType artifact_type = 3;
+    ArtifactGcsPath gcs_path = 4;
+    cshift.enums.ArtifactDeserializedType deserialized_type = 5;
+    cshift.enums.ArtifactSerializationFormat serialization_format = 6;
+
+    bytes data_bytes = 10;
 }
 
 message DatasetSpec {
     string name = 1;
-    int64 id = 2;
+    string version = 2;
     repeated string tags = 3;
 
     ArtifactSpec artifact_spec = 10;
@@ -70,13 +52,13 @@ message DatasetSpec {
 message ComparisonPipelineSpec {
     repeated string index_fields = 1;
     repeated string groupby_fields = 2;
-    repeated ComparisonType comparison_types = 3;
+    repeated cshift.enums.ComparisonType comparison_types = 3;
     repeated DatasetSpec dataset_specs = 4;
 }
 
 message ModelSpec {
     string name = 1;
-    int64 id = 2;
+    string version = 2;
 
     DatasetSpec training_set_spec = 10;
 }

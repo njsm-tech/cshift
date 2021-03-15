@@ -5,16 +5,16 @@ import pandas as pd
 
 from cshift.client_service_common import config as csc_config
 from cshift import enums
-from cshift.proto import cshift_pb2 as pb2
+from cshift.proto import messages_pb2
 
-from .gcs_path import GcsPath
+from .artifact_gcs_path import ArtifactGcsPath
 
 class Artifact:
-    def __init__(self, spec: pb2.ArtifactSpec):
+    def __init__(self, spec: messages_pb2.ArtifactSpec):
         self.datastore_client = datastore.Client(project=csc_config.PROJECT)
         self.gcs_client = storage.Client(project=csc_config.PROJECT)
         self.spec = spec
-        self.gcs_path = GcsPath.from_message(spec.gcs_path)
+        self.gcs_path = ArtifactGcsPath.from_message(spec.gcs_path)
 
     @staticmethod
     def dataframe_from_parquet_bytes(parquet_bytes: bytes) -> pd.DataFrame:

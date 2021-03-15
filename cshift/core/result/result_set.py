@@ -14,3 +14,7 @@ class ResultSet(BaseResult):
     def get(self) -> None:
         for res in self.results:
             res.get()
+
+    def record(self) -> None:
+        for res in self.results:
+            res.record()

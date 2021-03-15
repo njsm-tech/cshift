@@ -14,6 +14,7 @@ DEFAULT_API_KEY = 'test-api-key'
 class ClientConfig:
     username: str = None,
     api_key: str = None,
+    project: str = None,
     path: str = DEFAULT_CONFIG_PATH
 
     @property
