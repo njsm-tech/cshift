@@ -21,11 +21,10 @@ class ClientComparisonPipeline(ClientObject):
             index_fields=index_fields,
             groupby_fields=groupby_fields,
             comparison_types=comparison_types,
-            dataset_specs=dataset_specs
-        )
+            dataset_specs=dataset_specs)
 
     def submit(self):
-        return self._post(
+        return self.request_post(
             url=api_paths.SUBMIT_COMPARISON,
             spec=self.spec)
 

@@ -2,14 +2,12 @@ from __future__ import annotations
 
 from typing import Dict, List
 
-from io import BytesIO
-
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
 from cshift.core.column import Column
-from cshift.dao.artifact_dao import ArtifactDao
+from cshift.dao.artifact import Artifact
 from cshift.proto import cshift_pb2 as pb2
 
 class Dataset:
@@ -39,15 +37,10 @@ class Dataset:
 
     @classmethod
     def from_spec(cls, spec: pb2.DatasetSpec):
-        dao = ArtifactDao(spec=spec.artifact_spec)
+        dao = Artifact(spec=spec.artifact_spec)
         parquet_bytes = dao.download()
-        df = cls.dataframe_from_parquet_bytes(parquet_bytes=parquet_bytes)
+        df = dao.dataframe_from_parquet_bytes(parquet_bytes=parquet_bytes)
         return cls(df)
-
-    @staticmethod
-    def dataframe_from_parquet_bytes(parquet_bytes: bytes):
-        buffer = BytesIO(parquet_bytes)
-        return pd.read_parquet(buffer)
 
     @classmethod
     def read(cls, path, **kwargs):

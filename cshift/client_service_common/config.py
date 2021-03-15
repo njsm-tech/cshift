@@ -2,3 +2,6 @@ CLIENT_MAX_DATA_SIZE_BYTES = 10_000_000_000 # 10gb
 
 PROJECT = 'cshift'
 DATASETS_BUCKET = 'cshift.appspot.com'
+DATASETS_PATH_PREFIX = 'datasets'
+RESULTS_BUCKET = 'cshift.appspot.com'
+RESULTS_PATH_PREFIX = 'results'

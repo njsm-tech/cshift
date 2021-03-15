@@ -32,8 +32,9 @@ def register_model(model_spec: pb2.ModelSpec):
     return enums.ResponseCode.SUCCESS
 
 def submit_comparison(comparison_spec: pb2.ComparisonPipelineSpec):
-    requests.post(
+    # TODO: instead of returning result_set directly, queue task and
+    #   have ClientResult track status of computation
+    return requests.post(
         url=api_paths.compute_service_urlify(api_paths.COMPUTE_COMPARISON),
         headers={'Content-Type': 'application/protobuf'},
         data=comparison_spec.SerializeToString())
-    return enums.ResponseCode.TASK_QUEUED

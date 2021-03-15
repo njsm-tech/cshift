@@ -2,13 +2,17 @@ import requests
 
 from cshift.client_service_common.api_paths import main_service_urlify
 
-class ClientObject:
-    def _req(self, type_, url, spec):
-        if type_ == 'post':
-            return self._post(url, spec)
+PROTOBUF_HEADER = {'Content-Type': 'application/protobuf'}
 
-    def _post(self, url, spec):
+class ClientObject:
+    def request_get(self, url, spec):
+        return requests.get(
+            url=main_service_urlify(url),
+            headers=PROTOBUF_HEADER,
+            data=spec.SerializeToString())
+
+    def request_post(self, url, spec):
         return requests.post(
             url=main_service_urlify(url),
-            headers={'Content-Type': 'application/protobuf'},
+            headers=PROTOBUF_HEADER,
             data=spec.SerializeToString())

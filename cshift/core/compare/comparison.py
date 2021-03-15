@@ -2,9 +2,8 @@ from __future__ import annotations
 
 from typing import List
 
-import pandas as pd
-
 from cshift.core.dataset import Dataset
+from cshift.core.result.result import Result
 
 class Comparison:
     ATOL = 1e-1  # absolute tolerance for np.isclose
@@ -12,7 +11,7 @@ class Comparison:
     @classmethod
     def compare(cls, 
             *datasets: List[Dataset], 
-            groupby_fields: List[str] = None) -> pd.DataFrame:
+            groupby_fields: List[str] = None) -> Result:
         """
         Checks for distributional shift between datasets using the 
             comparison specified by the subclass. 

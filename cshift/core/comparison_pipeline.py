@@ -5,7 +5,8 @@ from cshift.proto import cshift_pb2 as pb2
 from .compare import comparison_from_enum
 from .compare.comparison import Comparison
 from .dataset import Dataset
-from .result import Result
+from cshift.core.result.result import Result
+from cshift.core.result.result_set import ResultSet
 
 class ComparisonPipeline:
     def __init__(self, 
@@ -34,10 +35,11 @@ class ComparisonPipeline:
             groupby_fields=list(spec.groupby_fields),
             comparisons=comparisons)
 
-    def run(self) -> Result:
-        result = Result()
+    def run(self) -> ResultSet:
+        result_set = ResultSet()
         for comp in self.comparisons:
-            result[comp.name] = comp.compare(
+            result: Result = comp.compare(
                     *self.datasets,
                     groupby_fields=self.groupby_fields)
-        return result
+            result_set.add_result(result)
+        return result_set

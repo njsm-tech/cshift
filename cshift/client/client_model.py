@@ -13,6 +13,6 @@ class ClientModel(ClientObject):
             training_set_spec=training_set.spec)
 
     def register(self):
-        return self._post(
+        return self.request_post(
             url=api_paths.REGISTER_MODEL,
             spec=self.spec)

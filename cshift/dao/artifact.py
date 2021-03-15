@@ -1,4 +1,7 @@
+from io import BytesIO
+
 from google.cloud import datastore, storage
+import pandas as pd
 
 from cshift.client_service_common import config as csc_config
 from cshift import enums
@@ -6,12 +9,24 @@ from cshift.proto import cshift_pb2 as pb2
 
 from .gcs_path import GcsPath
 
-class ArtifactDao:
+class Artifact:
     def __init__(self, spec: pb2.ArtifactSpec):
         self.datastore_client = datastore.Client(project=csc_config.PROJECT)
         self.gcs_client = storage.Client(project=csc_config.PROJECT)
         self.spec = spec
         self.gcs_path = GcsPath.from_message(spec.gcs_path)
+
+    @staticmethod
+    def dataframe_from_parquet_bytes(parquet_bytes: bytes) -> pd.DataFrame:
+        buffer = BytesIO(parquet_bytes)
+        return pd.read_parquet(buffer)
+
+    @staticmethod
+    def dataframe_to_parquet_bytes(df: pd.DataFrame) -> bytes:
+        buffer = BytesIO()
+        df.columns = [str(c) for c in df.columns]
+        df.to_parquet(buffer)
+        return buffer.getvalue()
 
     def download(self) -> bytes:
         return self._download_bytes_from_gcs()

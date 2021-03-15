@@ -1,6 +1,5 @@
 from typing import List, Union
 
-from io import BytesIO
 import sys
 
 import numpy as np
@@ -8,7 +7,7 @@ import pandas as pd
 
 from cshift.client_service_common import api_paths
 import cshift.client_service_common.config as csc_config
-from cshift.dao.artifact_dao import ArtifactDao
+from cshift.dao.artifact import Artifact
 from cshift.dao.gcs_path import GcsPath
 from cshift.proto import cshift_pb2 as pb2
 
@@ -26,8 +25,9 @@ class ClientDataset(ClientObject):
         self.config = ClientConfig.read_or_default()
         self.name = name
 
-        _path_ext = "{username}/{dataset_name}".format(
+        _path_ext = "{username}/{path_prefix}/{dataset_name}".format(
             username=self.config.username,
+            path_prefix=csc_config.DATASETS_PATH_PREFIX,
             dataset_name=self.name)
         self.gcs_path = GcsPath(
             bucket=csc_config.DATASETS_BUCKET,
@@ -45,7 +45,7 @@ class ClientDataset(ClientObject):
         self.is_data_ref = ref is not None
 
         if self.is_data_literal:
-            self.dataframe_parquet_bytes = self.dataframe_to_parquet_bytes(data)
+            self.dataframe_parquet_bytes = Artifact.dataframe_to_parquet_bytes(data)
         else:
             self.dataframe_parquet_bytes = None
 
@@ -60,17 +60,11 @@ class ClientDataset(ClientObject):
             artifact_spec=artifact_spec
         )
 
-    def dataframe_to_parquet_bytes(self, df: pd.DataFrame) -> bytes:
-        buffer = BytesIO()
-        df.columns = [str(c) for c in df.columns]
-        df.to_parquet(buffer)
-        return buffer.getvalue()
-
     def register(self):
         if self.is_data_literal:
-            dao = ArtifactDao(self.spec.artifact_spec)
+            dao = Artifact(self.spec.artifact_spec)
             dao.upload(bytes=self.dataframe_parquet_bytes)
-        return self._post(
+        return self.request_post(
             url=api_paths.REGISTER_DATASET,
             spec=self.spec)
 

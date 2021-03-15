@@ -10,7 +10,9 @@ COMPARISONS = ROOT + 'comparisons'
 COMPUTE = ROOT + 'compute'
 DATASETS = ROOT + 'datasets'
 MODELS = ROOT + 'models'
+RESULTS = ROOT + 'results'
 
+GET_RESULT = '{}/get'.format(RESULTS)
 REGISTER_DATASET = '{}/register'.format(DATASETS)
 REGISTER_MODEL = '{}/register'.format(MODELS)
 SUBMIT_COMPARISON = '{}/submit'.format(COMPARISONS)

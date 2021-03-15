@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 
 from cshift.core.compare.comparison import Comparison
 from cshift.core.dataset import Dataset
+from cshift.core.result.result import Result
 
 class LRComparison(Comparison):
     LR_TRAIN_ACC = 'lr_train_acc'
@@ -17,7 +18,7 @@ class LRComparison(Comparison):
     @classmethod
     def compare(cls, 
             *datasets: List[Dataset],
-            groupby_fields: List[str] = None):
+            groupby_fields: List[str] = None) -> Result:
         cls.validate_datasets(*datasets)
         [ds1, ds2] = datasets
         df1, df2 = ds1.df, ds2.df
@@ -58,13 +59,13 @@ class LRComparison(Comparison):
                 }
         
         res_df = pd.DataFrame.from_dict(res, orient='columns')
-        return res_df
+        return Result(res_df)
 
     @classmethod
     def shift_detected(cls, 
             *datasets: List[Dataset],
             groupby_fields: List[str] = None):
-        res = cls.compare(*datasets)
+        res = cls.compare(*datasets).df
         test_accs = res.loc[cls.LR_TEST_ACC].values
         discrim = np.abs(0.5 - test_accs)
         return np.any(discrim > cls.LR_TEST_ACC_THRESH)

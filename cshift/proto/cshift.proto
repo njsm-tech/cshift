@@ -54,6 +54,7 @@ message ArtifactSpec {
     int64 id = 2;
     ArtifactType artifact_type = 3;
     GcsPath gcs_path = 4;
+    bytes dataframe_parquet_bytes = 5;
 }
 
 message DatasetSpec {
