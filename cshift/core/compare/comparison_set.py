@@ -9,6 +9,7 @@ from cshift.core.compare.comparison import Comparison
 from cshift.core.compare.ks import KSComparison
 from cshift.core.compare.lr import LRComparison
 from cshift.core.compare.summary_stats import SummaryStatsComparison
+from cshift.proto import cshift_pb2 as pb2
 
 class ComparisonSet(Comparison):
     """
@@ -20,8 +21,18 @@ class ComparisonSet(Comparison):
         LRComparison
             ]
 
-    def __init__(self, *comparisons: List[Comparison]):
-        self.comparisons = comparisons 
+    def __init__(self, *comparisons: Comparison, **kwargs):
+        super().__init__(**kwargs)
+        self.comparisons = comparisons
+        self.spec = self.make_spec(*comparisons)
+
+    @classmethod
+    def make_spec(cls,
+                  *comparisons: Comparison) -> pb2.ComparisonSetSpec:
+        comparison_specs = []
+        for comp in comparisons:
+            comparison_specs.append(comp.spec)
+        return pb2.ComparisonSetSpec(comparison_specs=comparison_specs)
 
     @classmethod
     def default(cls) -> ComparisonSet:

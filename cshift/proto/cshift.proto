@@ -86,6 +86,17 @@ message DatasetSpec {
     repeated ColumnSpec columns = 30;
 }
 
+message ComparisonSpec {
+    repeated string index_fields = 1;
+    repeated string groupby_fields = 2;
+    ComparisonType comparison_type = 3;
+    repeated DatasetSpec dataset_specs = 4;
+}
+
+message ComparisonSetSpec {
+    repeated ComparisonSpec comparison_specs = 1;
+}
+
 message ComparisonPipelineSpec {
     repeated string index_fields = 1;
     repeated string groupby_fields = 2;

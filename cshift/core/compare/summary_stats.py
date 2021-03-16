@@ -7,8 +7,11 @@ from cshift import constants
 from cshift.core.compare.comparison import Comparison
 from cshift.core.dataset import Dataset
 from cshift.core.result.result import Result
+from cshift.proto import cshift_pb2 as pb2
 
 class SummaryStatsComparison(Comparison):
+    COMPARISON_TYPE = pb2.ComparisonType.SUMMARY_STATS
+
     NUM_QUANTILES = 20  # 0-100
     PERCENTILES = np.arange(0, 100, NUM_QUANTILES)  # ints between 0 and 100
     PERCENTILES_NORMALIZED = PERCENTILES / 100.  # floats between 0. and 1.

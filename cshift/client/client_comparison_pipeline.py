@@ -27,10 +27,9 @@ class ClientComparisonPipeline(ClientObject):
             dataset_specs=dataset_specs)
 
     def submit(self):
-        res = self.request_post(
+        return self.request_post(
             url=api_paths.SUBMIT_COMPARISON,
             spec=self.spec)
-        print(res)
 
     def _check_dataset_specs(self,
                              dataset_specs: List[pb2.DatasetSpec]):

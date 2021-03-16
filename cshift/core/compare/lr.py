@@ -8,8 +8,11 @@ from sklearn.model_selection import train_test_split
 from cshift.core.compare.comparison import Comparison
 from cshift.core.dataset import Dataset
 from cshift.core.result.result import Result
+from cshift.proto import cshift_pb2 as pb2
 
 class LRComparison(Comparison):
+    COMPARISON_TYPE = pb2.ComparisonType.LR
+
     LR_TRAIN_ACC = 'lr_train_acc'
     LR_TEST_ACC = 'lr_test_acc'
     LR_WEIGHT = 'lr_weight'
