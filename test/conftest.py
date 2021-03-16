@@ -1,5 +1,6 @@
 from typing import Dict, List
 
+import os
 import pytest
 
 from flask import Flask
@@ -13,14 +14,21 @@ from cshift.client.client_comparison_pipeline import ClientComparisonPipeline
 from cshift.services.compute_service import compute_service
 from cshift.services.main_service import main_service
 
-FEATURES_PATH = '../datasets/finance/stocks_features'
+ROOT = '~/code/cshift'
+TEST_ROOT = os.path.join(ROOT, 'test')
+DATASETS_DIR = os.path.join(TEST_ROOT, 'datasets')
+FEATURES_PATH = os.path.join(
+    DATASETS_DIR,
+    'finance/stocks_features')
 SCOPE = 'package'
 
-config = ClientConfig(
-    username='test-user',
-    api_key='test-api-key',
-    path='/Users/Nick/.cshift/cshift_config.json'
-)
+@pytest.fixture(scope=SCOPE)
+def client_config():
+    yield ClientConfig(
+        username='test-user',
+        api_key='test-api-key',
+        project='pytest'
+    )
 
 @pytest.fixture(scope=SCOPE)
 def compute_service_app() -> Flask:
@@ -94,31 +102,43 @@ def scaled_features(
     return {'train': train_df, 'val': val_df, 'test': test_df}
 
 @pytest.fixture(scope=SCOPE)
-def datasets(scaled_features: Dict[str, pd.DataFrame]) -> Dict[str, ClientDataset]:
+def datasets(client_config: ClientConfig,
+             scaled_features: Dict[str, pd.DataFrame]) -> Dict[str, ClientDataset]:
     datasets = {}
     for (key, df) in scaled_features.items():
-        datasets[key] = ClientDataset(data=df, name=key, tags=[key])
+        datasets[key] = ClientDataset(
+            config=client_config,
+            data=df,
+            name=key,
+            tags=[key]
+        )
     return datasets
 
 @pytest.fixture(scope=SCOPE)
-def model(datasets: Dict[str, ClientDataset]) -> ClientModel:
+def model(client_config: ClientConfig,
+          datasets: Dict[str, ClientDataset]) -> ClientModel:
     return ClientModel(
+        config=client_config,
         name='test-finance-model',
         training_set=datasets['train'])
 
 @pytest.fixture(scope=SCOPE)
-def comparison_pipelines(datasets: Dict[str, ClientDataset]) -> List[ClientComparisonPipeline]:
+def comparison_pipelines(
+        client_config: ClientConfig,
+        datasets: Dict[str, ClientDataset]) -> List[ClientComparisonPipeline]:
     pipelines = []
     index_fields = ['dt', 'ticker_cat']
     groupby_fields = ['ticker_cat']
     comparison_types = ['ks', 'lr', 'summary_stats']
     pipelines.append(ClientComparisonPipeline(
+        config=client_config,
         datasets=[datasets['train'], datasets['val']],
         index_fields=index_fields,
         groupby_fields=groupby_fields,
         comparison_types=comparison_types
     ))
     pipelines.append(ClientComparisonPipeline(
+        config=client_config,
         datasets=[datasets['train'], datasets['test']],
         index_fields=index_fields,
         groupby_fields=groupby_fields,

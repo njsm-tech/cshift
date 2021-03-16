@@ -18,14 +18,18 @@ class ClientDataset(ClientObject):
     def __init__(self,
                  config: ClientConfig = None,
                  data: Union[np.ndarray, pd.DataFrame] = None,
-                 features: Union[np.ndarray, pd.DataFrame] = None,
-                 labels: Union[np.ndarray, pd.DataFrame] = None,
+                 feature_data: Union[np.ndarray, pd.DataFrame] = None,
+                 label_data: Union[np.ndarray, pd.DataFrame] = None,
+                 feature_cols: List[str] = None,
+                 label_cols: List[str] = None,
                  ref: str = None,
                  name: str = None,
                  tags: List[str] = None,
                  version: str = None):
         super().__init__(config=config)
         self.name = name
+        self.feature_cols = feature_cols
+        self.label_cols = label_cols
 
         _path_ext = "{username}/{path_prefix}/{dataset_name}".format(
             username=self.config.username,
@@ -39,10 +43,10 @@ class ClientDataset(ClientObject):
             artifact_name=name,
             artifact_version=version)
 
-        if (data is None) and (features is not None and labels is not None):
-            data = pd.DataFrame(features)
-            print(data, labels)
-            data['labels'] = labels
+        if (data is None) and (feature_data is not None and label_data is not None):
+            data = pd.DataFrame(feature_data)
+            data['labels'] = label_data
+        self.data = data
 
         self._validate_xor(data, ref)
         self._check_size(data)

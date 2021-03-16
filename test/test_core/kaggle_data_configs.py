@@ -1,18 +1,25 @@
 import os
 
 import pytest 
+from conftest import DATASETS_DIR
 
 from cshift.core.dataset import Dataset
 
-KGL_DATASETS_DIR = '../datasets/kaggle'
-WIND_PWR_PATH = os.path.join(KGL_DATASETS_DIR, 
-        'wind_power/wind_power.parquet')
-VACC_PATH = os.path.join(KGL_DATASETS_DIR, 
-        'country_vaccinations/country_vaccinations.parquet')
-DROUGHT_DIR = os.path.join(KGL_DATASETS_DIR,
-        'drought/combined')
-DROUGHT_DIR_SMALL = os.path.join(KGL_DATASETS_DIR, 
-        'drought/small')
+KGL_DATASETS_DIR = os.path.join(
+    DATASETS_DIR,
+    'kaggle')
+WIND_PWR_PATH = os.path.join(
+    KGL_DATASETS_DIR,
+    'wind_power/wind_power.parquet')
+VACC_PATH = os.path.join(
+    KGL_DATASETS_DIR,
+    'country_vaccinations/country_vaccinations.parquet')
+DROUGHT_DIR = os.path.join(
+    KGL_DATASETS_DIR,
+    'drought/combined')
+DROUGHT_DIR_SMALL = os.path.join(
+    KGL_DATASETS_DIR,
+    'drought/small')
 
 @pytest.fixture(scope='package')
 def wind_power():

@@ -1,9 +1,18 @@
+from typing import List
+
 import os
 import pytest
+from conftest import DATASETS_DIR
+
+import numpy as np
 
 from cshift.proto import cshift_pb2 as pb2
 from cshift.core.column import Column
 from cshift.core.dataset import Dataset
+
+GEN_DATASETS_DIR = os.path.join(
+    DATASETS_DIR,
+    'generated')
 
 NFEAT = 5
 SIZE = 2000
@@ -12,7 +21,6 @@ DAYS = 14
 
 READ = True
 WRITE = False
-GEN_DATASETS_DIR = '../datasets/generated'
 
 def gen_normal_ds(ncols=None, locs=None, scales=None, size=None) -> Dataset:
     cols = []
@@ -24,7 +32,7 @@ def gen_normal_ds(ncols=None, locs=None, scales=None, size=None) -> Dataset:
 
 def gen_time_col(size=None, days=None):
     time_arr = np.arange(days).reshape(-1, 1)
-    time_arr = np.repeat(time_col, size, axis=1).reshape(1, -1).T
+    time_arr = np.repeat(time_arr, size, axis=1).reshape(1, -1).T
     return Column(name='day', arr=time_arr)
 
 def gen_ts_normal_ds(ncols=None, locs=None, scales=None, size=None, days=None) -> Dataset:
@@ -46,7 +54,7 @@ def gen_col(dist_name=None, size=None, kwargs=None, name=None) -> Column:
     return Column.generate_from_spec(cspec)
 
 @pytest.fixture(scope='package')
-def normal_unsep_ds() -> Dataset:
+def normal_unsep_ds() -> List[Dataset]:
     base_path = os.path.join(GEN_DATASETS_DIR, 'normal_unsep_ds')
     if READ:
         ds1 = Dataset.read(base_path + '1')

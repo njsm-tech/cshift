@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0c\x63shift.proto\"\x91\x01\n\x10RandomColumnSpec\x12\x11\n\tdist_name\x18\x01 \x01(\t\x12\x0c\n\x04size\x18\x02 \x01(\x05\x12-\n\x06kwargs\x18\x03 \x03(\x0b\x32\x1d.RandomColumnSpec.KwargsEntry\x1a-\n\x0bKwargsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x02:\x02\x38\x01\"\x8c\x01\n\nColumnSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x03\x12\x1b\n\x05\x66type\x18\x03 \x01(\x0e\x32\x0c.FeatureType\x12\x18\n\x05\x64type\x18\x04 \x01(\x0e\x32\t.DataType\x12-\n\x12random_column_spec\x18\n \x01(\x0b\x32\x11.RandomColumnSpec\"\x9b\x01\n\x0f\x41rtifactGcsPath\x12\x0e\n\x06\x62ucket\x18\x01 \x01(\t\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x0f\n\x07project\x18\x03 \x01(\t\x12$\n\rartifact_type\x18\x04 \x01(\x0e\x32\r.ArtifactType\x12\x15\n\rartifact_name\x18\x05 \x01(\t\x12\x18\n\x10\x61rtifact_version\x18\x06 \x01(\t\"\xfd\x01\n\x0c\x41rtifactSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07version\x18\x02 \x01(\t\x12$\n\rartifact_type\x18\x03 \x01(\x0e\x32\r.ArtifactType\x12\"\n\x08gcs_path\x18\x04 \x01(\x0b\x32\x10.ArtifactGcsPath\x12\x34\n\x11\x64\x65serialized_type\x18\x05 \x01(\x0e\x32\x19.ArtifactDeserializedType\x12:\n\x14serialization_format\x18\x06 \x01(\x0e\x32\x1c.ArtifactSerializationFormat\x12\x12\n\ndata_bytes\x18\n \x01(\x0c\"~\n\x0b\x44\x61tasetSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07version\x18\x02 \x01(\t\x12\x0c\n\x04tags\x18\x03 \x03(\t\x12$\n\rartifact_spec\x18\n \x01(\x0b\x32\r.ArtifactSpec\x12\x1c\n\x07\x63olumns\x18\x1e \x03(\x0b\x32\x0b.ColumnSpec\"\x96\x01\n\x16\x43omparisonPipelineSpec\x12\x14\n\x0cindex_fields\x18\x01 \x03(\t\x12\x16\n\x0egroupby_fields\x18\x02 \x03(\t\x12)\n\x10\x63omparison_types\x18\x03 \x03(\x0e\x32\x0f.ComparisonType\x12#\n\rdataset_specs\x18\x04 \x03(\x0b\x32\x0c.DatasetSpec\"S\n\tModelSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07version\x18\x02 \x01(\t\x12\'\n\x11training_set_spec\x18\n \x01(\x0b\x32\x0c.DatasetSpec\"m\n\nResultSpec\x12\x39\n\x18\x63omparison_pipeline_spec\x18\x01 \x01(\x0b\x32\x17.ComparisonPipelineSpec\x12$\n\rartifact_spec\x18\x02 \x01(\x0b\x32\r.ArtifactSpec*G\n\x0b\x46\x65\x61tureType\x12\x0e\n\nCONTINUOUS\x10\x00\x12\x0b\n\x07ORDINAL\x10\x01\x12\n\n\x06\x42INARY\x10\x02\x12\x0f\n\x0b\x43\x41TEGORICAL\x10\x03*G\n\x08\x44\x61taType\x12\t\n\x05\x46LOAT\x10\x00\x12\x07\n\x03INT\x10\x01\x12\x08\n\x04\x42OOL\x10\x02\x12\n\n\x06STRING\x10\x03\x12\x08\n\x04LIST\x10\x04\x12\x07\n\x03MAP\x10\x05*3\n\x0e\x43omparisonType\x12\x11\n\rSUMMARY_STATS\x10\x00\x12\x06\n\x02KS\x10\x01\x12\x06\n\x02LR\x10\x02*2\n\x0c\x41rtifactType\x12\x0b\n\x07\x44\x41TASET\x10\x00\x12\t\n\x05MODEL\x10\x01\x12\n\n\x06RESULT\x10\x02*0\n\x18\x41rtifactDeserializedType\x12\x14\n\x10PANDAS_DATAFRAME\x10\x00**\n\x1b\x41rtifactSerializationFormat\x12\x0b\n\x07PARQUET\x10\x00\x62\x06proto3'
+  serialized_pb=b'\n\x0c\x63shift.proto\"\x91\x01\n\x10RandomColumnSpec\x12\x11\n\tdist_name\x18\x01 \x01(\t\x12\x0c\n\x04size\x18\x02 \x01(\x05\x12-\n\x06kwargs\x18\x03 \x03(\x0b\x32\x1d.RandomColumnSpec.KwargsEntry\x1a-\n\x0bKwargsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x02:\x02\x38\x01\"\x8c\x01\n\nColumnSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x03\x12\x1b\n\x05\x66type\x18\x03 \x01(\x0e\x32\x0c.FeatureType\x12\x18\n\x05\x64type\x18\x04 \x01(\x0e\x32\t.DataType\x12-\n\x12random_column_spec\x18\n \x01(\x0b\x32\x11.RandomColumnSpec\"\x9b\x01\n\x0f\x41rtifactGcsPath\x12\x0e\n\x06\x62ucket\x18\x01 \x01(\t\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x0f\n\x07project\x18\x03 \x01(\t\x12$\n\rartifact_type\x18\x04 \x01(\x0e\x32\r.ArtifactType\x12\x15\n\rartifact_name\x18\x05 \x01(\t\x12\x18\n\x10\x61rtifact_version\x18\x06 \x01(\t\"\xfd\x01\n\x0c\x41rtifactSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07version\x18\x02 \x01(\t\x12$\n\rartifact_type\x18\x03 \x01(\x0e\x32\r.ArtifactType\x12\"\n\x08gcs_path\x18\x04 \x01(\x0b\x32\x10.ArtifactGcsPath\x12\x34\n\x11\x64\x65serialized_type\x18\x05 \x01(\x0e\x32\x19.ArtifactDeserializedType\x12:\n\x14serialization_format\x18\x06 \x01(\x0e\x32\x1c.ArtifactSerializationFormat\x12\x12\n\ndata_bytes\x18\n \x01(\x0c\"~\n\x0b\x44\x61tasetSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07version\x18\x02 \x01(\t\x12\x0c\n\x04tags\x18\x03 \x03(\t\x12$\n\rartifact_spec\x18\n \x01(\x0b\x32\r.ArtifactSpec\x12\x1c\n\x07\x63olumns\x18\x1e \x03(\x0b\x32\x0b.ColumnSpec\"\x96\x01\n\x16\x43omparisonPipelineSpec\x12\x14\n\x0cindex_fields\x18\x01 \x03(\t\x12\x16\n\x0egroupby_fields\x18\x02 \x03(\t\x12)\n\x10\x63omparison_types\x18\x03 \x03(\x0e\x32\x0f.ComparisonType\x12#\n\rdataset_specs\x18\x04 \x03(\x0b\x32\x0c.DatasetSpec\"S\n\tModelSpec\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07version\x18\x02 \x01(\t\x12\'\n\x11training_set_spec\x18\n \x01(\x0b\x32\x0c.DatasetSpec\"m\n\nResultSpec\x12\x39\n\x18\x63omparison_pipeline_spec\x18\x01 \x01(\x0b\x32\x17.ComparisonPipelineSpec\x12$\n\rartifact_spec\x18\x02 \x01(\x0b\x32\r.ArtifactSpec\"2\n\rResultSetSpec\x12!\n\x0cresult_specs\x18\x01 \x03(\x0b\x32\x0b.ResultSpec*G\n\x0b\x46\x65\x61tureType\x12\x0e\n\nCONTINUOUS\x10\x00\x12\x0b\n\x07ORDINAL\x10\x01\x12\n\n\x06\x42INARY\x10\x02\x12\x0f\n\x0b\x43\x41TEGORICAL\x10\x03*G\n\x08\x44\x61taType\x12\t\n\x05\x46LOAT\x10\x00\x12\x07\n\x03INT\x10\x01\x12\x08\n\x04\x42OOL\x10\x02\x12\n\n\x06STRING\x10\x03\x12\x08\n\x04LIST\x10\x04\x12\x07\n\x03MAP\x10\x05*3\n\x0e\x43omparisonType\x12\x11\n\rSUMMARY_STATS\x10\x00\x12\x06\n\x02KS\x10\x01\x12\x06\n\x02LR\x10\x02*2\n\x0c\x41rtifactType\x12\x0b\n\x07\x44\x41TASET\x10\x00\x12\t\n\x05MODEL\x10\x01\x12\n\n\x06RESULT\x10\x02*0\n\x18\x41rtifactDeserializedType\x12\x14\n\x10PANDAS_DATAFRAME\x10\x00**\n\x1b\x41rtifactSerializationFormat\x12\x0b\n\x07PARQUET\x10\x00\x62\x06proto3'
 )
 
 _FEATURETYPE = _descriptor.EnumDescriptor(
@@ -53,8 +53,8 @@ _FEATURETYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1198,
-  serialized_end=1269,
+  serialized_start=1250,
+  serialized_end=1321,
 )
 _sym_db.RegisterEnumDescriptor(_FEATURETYPE)
 
@@ -99,8 +99,8 @@ _DATATYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1271,
-  serialized_end=1342,
+  serialized_start=1323,
+  serialized_end=1394,
 )
 _sym_db.RegisterEnumDescriptor(_DATATYPE)
 
@@ -130,8 +130,8 @@ _COMPARISONTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1344,
-  serialized_end=1395,
+  serialized_start=1396,
+  serialized_end=1447,
 )
 _sym_db.RegisterEnumDescriptor(_COMPARISONTYPE)
 
@@ -161,8 +161,8 @@ _ARTIFACTTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1397,
-  serialized_end=1447,
+  serialized_start=1449,
+  serialized_end=1499,
 )
 _sym_db.RegisterEnumDescriptor(_ARTIFACTTYPE)
 
@@ -182,8 +182,8 @@ _ARTIFACTDESERIALIZEDTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1449,
-  serialized_end=1497,
+  serialized_start=1501,
+  serialized_end=1549,
 )
 _sym_db.RegisterEnumDescriptor(_ARTIFACTDESERIALIZEDTYPE)
 
@@ -203,8 +203,8 @@ _ARTIFACTSERIALIZATIONFORMAT = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1499,
-  serialized_end=1541,
+  serialized_start=1551,
+  serialized_end=1593,
 )
 _sym_db.RegisterEnumDescriptor(_ARTIFACTSERIALIZATIONFORMAT)
 
@@ -712,6 +712,38 @@ _RESULTSPEC = _descriptor.Descriptor(
   serialized_end=1196,
 )
 
+
+_RESULTSETSPEC = _descriptor.Descriptor(
+  name='ResultSetSpec',
+  full_name='ResultSetSpec',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='result_specs', full_name='ResultSetSpec.result_specs', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1198,
+  serialized_end=1248,
+)
+
 _RANDOMCOLUMNSPEC_KWARGSENTRY.containing_type = _RANDOMCOLUMNSPEC
 _RANDOMCOLUMNSPEC.fields_by_name['kwargs'].message_type = _RANDOMCOLUMNSPEC_KWARGSENTRY
 _COLUMNSPEC.fields_by_name['ftype'].enum_type = _FEATURETYPE
@@ -729,6 +761,7 @@ _COMPARISONPIPELINESPEC.fields_by_name['dataset_specs'].message_type = _DATASETS
 _MODELSPEC.fields_by_name['training_set_spec'].message_type = _DATASETSPEC
 _RESULTSPEC.fields_by_name['comparison_pipeline_spec'].message_type = _COMPARISONPIPELINESPEC
 _RESULTSPEC.fields_by_name['artifact_spec'].message_type = _ARTIFACTSPEC
+_RESULTSETSPEC.fields_by_name['result_specs'].message_type = _RESULTSPEC
 DESCRIPTOR.message_types_by_name['RandomColumnSpec'] = _RANDOMCOLUMNSPEC
 DESCRIPTOR.message_types_by_name['ColumnSpec'] = _COLUMNSPEC
 DESCRIPTOR.message_types_by_name['ArtifactGcsPath'] = _ARTIFACTGCSPATH
@@ -737,6 +770,7 @@ DESCRIPTOR.message_types_by_name['DatasetSpec'] = _DATASETSPEC
 DESCRIPTOR.message_types_by_name['ComparisonPipelineSpec'] = _COMPARISONPIPELINESPEC
 DESCRIPTOR.message_types_by_name['ModelSpec'] = _MODELSPEC
 DESCRIPTOR.message_types_by_name['ResultSpec'] = _RESULTSPEC
+DESCRIPTOR.message_types_by_name['ResultSetSpec'] = _RESULTSETSPEC
 DESCRIPTOR.enum_types_by_name['FeatureType'] = _FEATURETYPE
 DESCRIPTOR.enum_types_by_name['DataType'] = _DATATYPE
 DESCRIPTOR.enum_types_by_name['ComparisonType'] = _COMPARISONTYPE
@@ -808,6 +842,13 @@ ResultSpec = _reflection.GeneratedProtocolMessageType('ResultSpec', (_message.Me
   # @@protoc_insertion_point(class_scope:ResultSpec)
   })
 _sym_db.RegisterMessage(ResultSpec)
+
+ResultSetSpec = _reflection.GeneratedProtocolMessageType('ResultSetSpec', (_message.Message,), {
+  'DESCRIPTOR' : _RESULTSETSPEC,
+  '__module__' : 'cshift_pb2'
+  # @@protoc_insertion_point(class_scope:ResultSetSpec)
+  })
+_sym_db.RegisterMessage(ResultSetSpec)
 
 
 _RANDOMCOLUMNSPEC_KWARGSENTRY._options = None

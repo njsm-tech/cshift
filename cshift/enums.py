@@ -48,8 +48,3 @@ class DatastoreEntityKind(FancyEnum):
     MODEL = 'Model'
     COMPARISON = 'Comparison'
     RESULT = 'Result'
-
-class ResponseCode(FancyEnum):
-    SUCCESS = 'success'
-    FAILED = 'failed'
-    TASK_QUEUED = 'task_queued'

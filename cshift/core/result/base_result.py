@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Union
+
 from cshift.client_service_common import config as csc_config
 from cshift.dao.artifact import Artifact
 from cshift.dao.artifact_gcs_path import ArtifactGcsPath
@@ -45,4 +47,7 @@ class BaseResult:
 
     def record(self) -> None:
         '''Put the result in the database.'''
+        raise NotImplementedError()
+
+    def to_message(self) -> Union[pb2.ResultSpec, pb2.ResultSetSpec]:
         raise NotImplementedError()
