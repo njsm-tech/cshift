@@ -9,9 +9,12 @@ from cshift.core.compare.comparison import Comparison
 from cshift.core.compare.ks import KSComparison
 from cshift.core.compare.lr import LRComparison
 from cshift.core.compare.summary_stats import SummaryStatsComparison
+from cshift.core.result.result_set import ResultSet
 from cshift.proto import cshift_pb2 as pb2
 
-class ComparisonSet(Comparison):
+from .comparison_interface import ComparisonInterface
+
+class ComparisonSet(ComparisonInterface):
     """
     Convenience class to hold multiple comparisons.
     """
@@ -21,8 +24,7 @@ class ComparisonSet(Comparison):
         LRComparison
             ]
 
-    def __init__(self, *comparisons: Comparison, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, *comparisons: Comparison):
         self.comparisons = comparisons
         self.spec = self.make_spec(*comparisons)
 
@@ -40,18 +42,18 @@ class ComparisonSet(Comparison):
 
     def compare(self, 
             *datasets: List[Dataset], 
-            groupby_fields: List[str] = None) -> pd.DataFrame:
-        results = []
+            groupby_fields: List[str] = None) -> ResultSet:
+        results = ResultSet()
         for comp in self.comparisons:
-            res = comp.compare(*datasets, groupby_fields=groupby_fields)
-            results.append(res)
-        return pd.concat(results, axis=1)
+            res = comp.compare()
+            results.add_result(res)
+        return results
 
     def shift_detected(self, 
             *datasets: List[Dataset],
             groupby_fields: List[str] = None) -> bool:
         for comp in self.comparisons:
-            if comp.shift_detected(*datasets, groupby_fields=groupby_fields):
+            if comp.shift_detected():
                 return True
         return False
 

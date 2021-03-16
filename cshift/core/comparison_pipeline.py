@@ -38,8 +38,6 @@ class ComparisonPipeline:
     def run(self) -> ResultSet:
         result_set = ResultSet()
         for comp in self.comparisons:
-            result: Result = comp.compare(
-                    *self.datasets,
-                    groupby_fields=self.groupby_fields)
+            result: Result = comp.compare()
             result_set.add_result(result)
         return result_set

@@ -70,7 +70,7 @@ def normal_unsep_ds() -> List[Dataset]:
     return [ds1, ds2]
 
 @pytest.fixture(scope='package')
-def normal_sep_ds() -> Dataset:
+def normal_sep_ds() -> List[Dataset]:
     base_path = os.path.join(GEN_DATASETS_DIR, 'normal_sep_ds')
     if READ:
         ds1 = Dataset.read(base_path + '1')
@@ -88,7 +88,7 @@ def normal_sep_ds() -> Dataset:
     return [ds1, ds2]
 
 @pytest.fixture(scope='package')
-def ts_normal_unsep_ds() -> Dataset:
+def ts_normal_unsep_ds() -> List[Dataset]:
     base_path = os.path.join(GEN_DATASETS_DIR, 'ts_normal_unsep_ds')
     if READ:
         ds1 = Dataset.read(base_path + '1')
@@ -104,7 +104,7 @@ def ts_normal_unsep_ds() -> Dataset:
     return [ds1, ds2]
 
 @pytest.fixture(scope='package')
-def normal_sep_ds() -> Dataset:
+def normal_sep_ds() -> List[Dataset]:
     base_path = os.path.join(GEN_DATASETS_DIR, 'normal_sep_ds')
     if READ:
         ds1 = Dataset.read(base_path + '1')

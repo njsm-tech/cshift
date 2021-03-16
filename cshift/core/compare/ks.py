@@ -10,7 +10,7 @@ from cshift.core.result.result import Result
 from cshift.proto import cshift_pb2 as pb2
 
 class KSComparison(Comparison):
-    COMPARISON_TYPE = pb2.ComparisonType.KS
+    comparison_type = pb2.ComparisonType.KS
 
     KS_STAT = 'ks_stat'
     KS_PVAL = 'ks_pval'

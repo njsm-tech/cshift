@@ -11,7 +11,7 @@ from cshift.core.result.result import Result
 from cshift.proto import cshift_pb2 as pb2
 
 class LRComparison(Comparison):
-    COMPARISON_TYPE = pb2.ComparisonType.LR
+    comparison_type = pb2.ComparisonType.LR
 
     LR_TRAIN_ACC = 'lr_train_acc'
     LR_TEST_ACC = 'lr_test_acc'

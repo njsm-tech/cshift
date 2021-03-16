@@ -10,7 +10,7 @@ from cshift.core.result.result import Result
 from cshift.proto import cshift_pb2 as pb2
 
 class SummaryStatsComparison(Comparison):
-    COMPARISON_TYPE = pb2.ComparisonType.SUMMARY_STATS
+    comparison_type = pb2.ComparisonType.SUMMARY_STATS
 
     NUM_QUANTILES = 20  # 0-100
     PERCENTILES = np.arange(0, 100, NUM_QUANTILES)  # ints between 0 and 100

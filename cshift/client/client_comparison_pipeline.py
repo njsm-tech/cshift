@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import List
 
 from cshift.client_service_common import api_paths, utils
+from cshift import enums
 from cshift.proto import cshift_pb2 as pb2
 
 from .client_dataset import ClientDataset
@@ -14,11 +15,12 @@ class ClientComparisonPipeline(ClientObject):
                  datasets: List[ClientDataset],
                  index_fields: List[str],
                  groupby_fields: List[str],
-                 comparison_types: List[str],
+                 comparison_types: List[str] = None,
                  config: ClientConfig = None):
         super().__init__(config=config)
         self._check_dataset_specs(datasets)
         dataset_specs = [ds.spec for ds in datasets]
+        comparison_types = comparison_types or enums.ComparisonType.get_all_values()
         comparison_types = [utils.enum_str2pb(ct, pb2.ComparisonType) for ct in comparison_types]
         self.spec = pb2.ComparisonPipelineSpec(
             index_fields=index_fields,

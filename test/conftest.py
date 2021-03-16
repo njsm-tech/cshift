@@ -4,6 +4,7 @@ import os
 import pytest
 
 from flask import Flask
+import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
@@ -14,20 +15,24 @@ from cshift.client.client_comparison_pipeline import ClientComparisonPipeline
 from cshift.services.compute_service import compute_service
 from cshift.services.main_service import main_service
 
+TEST_PROJECT = 'pytest'
+TEST_USER = 'test-user'
+TEST_API_KEY = 'test-api-key'
+
 ROOT = '~/code/cshift'
 TEST_ROOT = os.path.join(ROOT, 'test')
 DATASETS_DIR = os.path.join(TEST_ROOT, 'datasets')
 FEATURES_PATH = os.path.join(
     DATASETS_DIR,
     'finance/stocks_features')
-SCOPE = 'package'
+SCOPE = 'session'
 
 @pytest.fixture(scope=SCOPE)
 def client_config():
     yield ClientConfig(
-        username='test-user',
-        api_key='test-api-key',
-        project='pytest'
+        username=TEST_USER,
+        api_key=TEST_API_KEY,
+        project=TEST_PROJECT
     )
 
 @pytest.fixture(scope=SCOPE)
@@ -145,3 +150,35 @@ def comparison_pipelines(
         comparison_types=comparison_types
     ))
     return pipelines
+
+@pytest.fixture(scope=SCOPE)
+def client_data() -> pd.DataFrame:
+    numeric_data = np.random.random(size=(100, 3))
+    cat_data = np.arange(4)\
+        .reshape(-1, 1)\
+        .repeat(25, axis=1)\
+        .reshape(-1, 1)\
+        .repeat(3, axis=1)
+    data = np.hstack([numeric_data, cat_data])
+    return pd.DataFrame(data, columns=list('abcdef'))
+
+@pytest.fixture(scope=SCOPE)
+def client_dataset(
+        client_config: ClientConfig,
+        client_data: pd.DataFrame) -> ClientDataset:
+    return ClientDataset(
+        config=client_config,
+        data=client_data,
+        feature_cols=list('abcdef'),
+        label_cols=None,
+        name='test-dataset',
+        tags=['test'])
+
+@pytest.fixture(scope=SCOPE)
+def client_comparison_pipeline(
+        client_dataset: ClientDataset) -> ClientComparisonPipeline:
+    return ClientComparisonPipeline(
+        datasets=[client_dataset, client_dataset],
+        groupby_fields=['a', 'b'],
+        index_fields=[],
+        comparison_types=None)

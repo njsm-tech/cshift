@@ -6,8 +6,11 @@ from cshift.core.dataset import Dataset
 from cshift.core.result.result import Result
 from cshift.proto import cshift_pb2 as pb2
 
-class Comparison:
-    ATOL = 1e-1  # absolute tolerance for np.isclose
+from .comparison_interface import ComparisonInterface
+
+class Comparison(ComparisonInterface):
+    ATOL: float = 1e-1  # absolute tolerance for np.isclose
+    comparison_type: pb2.ComparisonType = None # class property set by subclass
 
     def __init__(self,
                  *datasets: Dataset,
@@ -16,33 +19,15 @@ class Comparison:
         self.datasets = datasets
         self.groupby_fields = groupby_fields
         self.index_fields = index_fields
-        self.spec = self.make_spec(
+        self.spec = self.__class__.make_spec(
             datasets=list(datasets),
             groupby_fields=groupby_fields,
             index_fields=index_fields)
 
     def compare(self) -> Result:
-        """
-        Checks for distributional shift between datasets using the 
-            comparison specified by the subclass. 
-        Returns pandas dataframe showing the computed distributional 
-            difference between the datasets, using the metrics 
-            specified by each subclass. 
-
-        Implemented by subclasses.
-        """
         raise NotImplementedError()
 
     def shift_detected(self) -> bool:
-        """
-        Checks for distributional shift between datasets using the 
-            comparison specified by the subclass. 
-        Returns bool: True if shift is detected, False if shift is
-            not detected. 
-        This method can be considered to be a reduction of 'compare'.
-
-        Implemented by subclasses.
-        """
         raise NotImplementedError()
 
     @classmethod
@@ -54,7 +39,7 @@ class Comparison:
             dataset_specs=[ds.spec for ds in datasets],
             groupby_fields=groupby_fields,
             index_fields=index_fields,
-            comparison_type=cls.COMPARISON_TYPE)
+            comparison_type=cls.comparison_type)
 
     @classmethod
     def validate_datasets(cls, 
