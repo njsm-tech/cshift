@@ -46,6 +46,6 @@ class SummaryStatsComparison(Comparison):
         return desc.loc[:, cls.DIFF_FIELDS]
 
     def shift_detected(self) -> bool:
-        diff = self.compare(*self.datasets).df
+        diff = self.compare().df
         zeros = np.zeros_like(diff.values)
         return np.any(np.logical_not(np.isclose(diff.values, zeros, atol=self.ATOL)))

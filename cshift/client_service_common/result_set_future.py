@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from cshift.client.client_result import ClientResult
 from cshift.dao.job import Job
 from cshift.proto import cshift_pb2 as pb2
 

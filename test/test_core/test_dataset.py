@@ -9,6 +9,8 @@ import pandas as pd
 from cshift.core.dataset import Dataset
 from cshift.proto import cshift_pb2 as pb2
 
+from .random_data_configs import normal_unsep_ds
+
 def test_concatenate(normal_unsep_ds: List[Dataset]):
     concatenated = Dataset.concatenate(*normal_unsep_ds)
     concatenated_df: pd.DataFrame = pd.concat([ds.df for ds in normal_unsep_ds], axis=0)

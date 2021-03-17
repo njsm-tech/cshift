@@ -3,17 +3,15 @@ from typing import List
 import os
 import pytest
 
-import conftest
-
 import numpy as np
 
 from cshift.proto import cshift_pb2 as pb2
 from cshift.core.column import Column
 from cshift.core.dataset import Dataset
 
-GEN_DATASETS_DIR = os.path.join(
-    conftest.DATASETS_DIR,
-    'generated')
+ROOT_DIR = '~/code/cshift'
+GEN_DATASETS_DIR = os.path.join(ROOT_DIR, 'test/datasets/generated')
+SCOPE = 'session'
 
 NFEAT = 5
 SIZE = 2000
@@ -36,9 +34,9 @@ def gen_time_col(size=None, days=None):
     time_arr = np.repeat(time_arr, size, axis=1).reshape(1, -1).T
     return Column(name='day', arr=time_arr)
 
-def gen_ts_normal_ds(ncols=None, locs=None, scales=None, size=None, days=None) -> Dataset:
+def gen_ts_normal_ds(ncols=NFEAT, locs=None, scales=None, size=None, days=None) -> Dataset:
     cols = []
-    for i in range(NFEAT):
+    for i in range(ncols):
         kwargs = {'loc': locs[i], 'scale': scales[i]}
         name = 'norm' + str(i)
         cols.append(gen_col(dist_name='norm', size=size, kwargs=kwargs, name=name))
@@ -54,7 +52,7 @@ def gen_col(dist_name=None, size=None, kwargs=None, name=None) -> Column:
         random_column_spec=rspec)
     return Column.generate_from_spec(cspec)
 
-@pytest.fixture(scope='package')
+@pytest.fixture(scope=SCOPE)
 def normal_unsep_ds() -> List[Dataset]:
     base_path = os.path.join(GEN_DATASETS_DIR, 'normal_unsep_ds')
     if READ:
@@ -70,7 +68,7 @@ def normal_unsep_ds() -> List[Dataset]:
         ds2.write(base_path + '2')
     return [ds1, ds2]
 
-@pytest.fixture(scope='package')
+@pytest.fixture(scope=SCOPE)
 def normal_sep_ds() -> List[Dataset]:
     base_path = os.path.join(GEN_DATASETS_DIR, 'normal_sep_ds')
     if READ:
@@ -88,7 +86,7 @@ def normal_sep_ds() -> List[Dataset]:
         ds2.write(base_path + '2')
     return [ds1, ds2]
 
-@pytest.fixture(scope='package')
+@pytest.fixture(scope=SCOPE)
 def ts_normal_unsep_ds() -> List[Dataset]:
     base_path = os.path.join(GEN_DATASETS_DIR, 'ts_normal_unsep_ds')
     if READ:
@@ -104,7 +102,7 @@ def ts_normal_unsep_ds() -> List[Dataset]:
         ds2.write(base_path + '2')
     return [ds1, ds2]
 
-@pytest.fixture(scope='package')
+@pytest.fixture(scope=SCOPE)
 def normal_sep_ds() -> List[Dataset]:
     base_path = os.path.join(GEN_DATASETS_DIR, 'normal_sep_ds')
     if READ:

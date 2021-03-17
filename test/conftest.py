@@ -20,7 +20,7 @@ from cshift.proto import cshift_pb2 as pb2
 from cshift.services.compute_service import compute_service
 from cshift.services.main_service import main_service
 
-import test_core
+from test_core.random_data_configs import normal_unsep_ds
 
 TEST_PROJECT = 'pytest'
 TEST_USER = 'test-user'
@@ -192,13 +192,13 @@ def client_comparison_pipeline(
 
 ### test_core fixtures
 
-DATASET_NAME = 'test=dataset'
+DATASET_NAME = 'test-dataset'
 DATASET_TAGS = ['test']
 DATASET_VERSION = '1'
 
 @pytest.fixture(scope=SCOPE)
-def dataset() -> Dataset:
-    return test_core.random_data_configs.normal_unsep_ds[0]
+def dataset(normal_unsep_ds: List[Dataset]) -> Dataset:
+    return normal_unsep_ds[0]
 
 @pytest.fixture(scope=SCOPE)
 def dataset_gcs_path(dataset: Dataset, client_config: ClientConfig) -> ArtifactGcsPath:

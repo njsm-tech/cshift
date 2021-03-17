@@ -33,10 +33,9 @@ class KSComparison(Comparison):
         res_df = pd.DataFrame.from_dict(res_map, orient='columns')
         return Result(df=res_df, comparison_spec=self.spec)
 
-    @classmethod
     def shift_detected(self) -> bool:
         """Looks for shift only using pvalues, as this should contain 
             all necessary information for shift detection."""
-        diff = self.compare(*self.datasets).df
+        diff = self.compare().df
         pvals = diff.loc[self.KS_PVAL].values
         return np.any(pvals < self.KS_PVAL_THRESH)
