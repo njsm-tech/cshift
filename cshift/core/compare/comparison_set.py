@@ -4,6 +4,7 @@ from typing import List
 
 import pandas as pd
 
+from cshift.client_service_common.result_set_future import ResultSetFuture
 from cshift.core.dataset import Dataset
 from cshift.core.compare.comparison import Comparison
 from cshift.core.compare.ks import KSComparison
@@ -37,8 +38,9 @@ class ComparisonSet(ComparisonInterface):
         return pb2.ComparisonSetSpec(comparison_specs=comparison_specs)
 
     @classmethod
-    def default(cls) -> ComparisonSet:
-        return cls(*cls.DEFAULT_COMPARISONS)
+    def default(cls, *args, **kwargs) -> ComparisonSet:
+        comparisons = [comp(*args, **kwargs) for comp in cls.DEFAULT_COMPARISONS]
+        return cls(*comparisons)
 
     def compare(self, 
             *datasets: List[Dataset], 
@@ -48,6 +50,9 @@ class ComparisonSet(ComparisonInterface):
             res = comp.compare()
             results.add_result(res)
         return results
+
+    def get_result_set_future(self) -> ResultSetFuture:
+        pass
 
     def shift_detected(self, 
             *datasets: List[Dataset],

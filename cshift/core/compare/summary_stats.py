@@ -19,18 +19,17 @@ class SummaryStatsComparison(Comparison):
 
     DIFF_FIELDS = ['mean', 'std'] + PERCENTILES_STR
 
-    @classmethod
-    def compare(cls, 
-            *datasets: List[Dataset],
-            groupby_fields: List[str] = None) -> Result:
-        cls.validate_datasets(*datasets, groupby_fields=groupby_fields)
-        [ds1, ds2] = datasets
-        ds1_summary = cls.compute_summary_stats(
-            ds1, groupby_fields=groupby_fields)
-        ds2_summary = cls.compute_summary_stats(
-            ds2, groupby_fields=groupby_fields)
+    def compare(self) -> Result:
+        self.validate_datasets(
+            *self.datasets,
+            groupby_fields=self.groupby_fields)
+        [ds1, ds2] = self.datasets
+        ds1_summary = self.compute_summary_stats(
+            ds1, groupby_fields=self.groupby_fields)
+        ds2_summary = self.compute_summary_stats(
+            ds2, groupby_fields=self.groupby_fields)
         diff = ds1_summary - ds2_summary
-        return Result(diff)
+        return Result(df=diff, comparison_spec=self.spec)
 
     @classmethod
     def compute_summary_stats(cls,
@@ -46,10 +45,7 @@ class SummaryStatsComparison(Comparison):
         desc.index.names = desc.index.names[:-1] + [constants.COLNAME_FEATURE]
         return desc.loc[:, cls.DIFF_FIELDS]
 
-    @classmethod
-    def shift_detected(cls, 
-            *datasets: List[Dataset],
-            groupby_fields: List[str] = None) -> bool:
-        diff = cls.compare(*datasets).df
+    def shift_detected(self) -> bool:
+        diff = self.compare(*self.datasets).df
         zeros = np.zeros_like(diff.values)
-        return np.any(np.logical_not(np.isclose(diff.values, zeros, atol=cls.ATOL)))
+        return np.any(np.logical_not(np.isclose(diff.values, zeros, atol=self.ATOL)))

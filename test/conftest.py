@@ -12,8 +12,15 @@ from cshift.client.client_config import ClientConfig
 from cshift.client.client_dataset import ClientDataset
 from cshift.client.client_model import ClientModel
 from cshift.client.client_comparison_pipeline import ClientComparisonPipeline
+from cshift.client_service_common import config as csc_config
+from cshift.core.dataset import Dataset
+from cshift.dao.artifact import Artifact
+from cshift.dao.artifact_gcs_path import ArtifactGcsPath
+from cshift.proto import cshift_pb2 as pb2
 from cshift.services.compute_service import compute_service
 from cshift.services.main_service import main_service
+
+import test_core
 
 TEST_PROJECT = 'pytest'
 TEST_USER = 'test-user'
@@ -182,3 +189,44 @@ def client_comparison_pipeline(
         groupby_fields=['a', 'b'],
         index_fields=[],
         comparison_types=None)
+
+### test_core fixtures
+
+DATASET_NAME = 'test=dataset'
+DATASET_TAGS = ['test']
+DATASET_VERSION = '1'
+
+@pytest.fixture(scope=SCOPE)
+def dataset() -> Dataset:
+    return test_core.random_data_configs.normal_unsep_ds[0]
+
+@pytest.fixture(scope=SCOPE)
+def dataset_gcs_path(dataset: Dataset, client_config: ClientConfig) -> ArtifactGcsPath:
+    return ArtifactGcsPath(
+        bucket=csc_config.DATASETS_BUCKET,
+        username=client_config.username,
+        project=client_config.project,
+        artifact_type=pb2.ArtifactType.DATASET,
+        artifact_name=DATASET_NAME,
+        artifact_version=DATASET_VERSION)
+
+@pytest.fixture(scope=SCOPE)
+def dataset_artifact_spec(dataset_gcs_path: ArtifactGcsPath) -> pb2.ArtifactSpec:
+    return pb2.ArtifactSpec(
+        name=DATASET_NAME,
+        version=DATASET_VERSION,
+        artifact_type=dataset_gcs_path.artifact_type,
+        artifact_name=dataset_gcs_path.artifact_name,
+        artifact_version=dataset_gcs_path.artifact_version)
+
+@pytest.fixture(scope=SCOPE)
+def dataset_artifact(dataset_artifact_spec: pb2.ArtifactSpec) -> Artifact:
+    return Artifact(spec=dataset_artifact_spec)
+
+@pytest.fixture(scope=SCOPE)
+def dataset_spec(dataset_artifact_spec: pb2.ArtifactSpec) -> pb2.DatasetSpec:
+    return pb2.DatasetSpec(
+        name=DATASET_NAME,
+        version=DATASET_VERSION,
+        tags=DATASET_TAGS,
+        artifact_spec=dataset_artifact_spec)

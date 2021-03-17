@@ -2,7 +2,8 @@ from typing import List
 
 import os
 import pytest
-from conftest import DATASETS_DIR
+
+import conftest
 
 import numpy as np
 
@@ -11,7 +12,7 @@ from cshift.core.column import Column
 from cshift.core.dataset import Dataset
 
 GEN_DATASETS_DIR = os.path.join(
-    DATASETS_DIR,
+    conftest.DATASETS_DIR,
     'generated')
 
 NFEAT = 5
@@ -22,9 +23,9 @@ DAYS = 14
 READ = True
 WRITE = False
 
-def gen_normal_ds(ncols=None, locs=None, scales=None, size=None) -> Dataset:
+def gen_normal_ds(ncols=NFEAT, locs=None, scales=None, size=None) -> Dataset:
     cols = []
-    for i in range(NFEAT):
+    for i in range(ncols):
         kwargs = {'loc': locs[i], 'scale': scales[i]}
         name = 'norm' + str(i)
         cols.append(gen_col(dist_name='norm', size=size, kwargs=kwargs, name=name))

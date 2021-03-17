@@ -1,12 +1,10 @@
 from __future__ import annotations
 
-from cshift.core.result.base_result import BaseResult
 from cshift.core.result.result import Result
 from cshift.proto import cshift_pb2 as pb2
 
-class ResultSet(BaseResult):
-    def __init__(self, *results: Result, **kwargs):
-        super().__init__(**kwargs)
+class ResultSet:
+    def __init__(self, *results: Result):
         self.results = list(results)
 
     def add_result(self, result: Result) -> None:

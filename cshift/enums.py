@@ -62,3 +62,8 @@ class DatastoreEntityKind(FancyEnum):
     MODEL = 'Model'
     COMPARISON = 'Comparison'
     RESULT = 'Result'
+
+class JobStatus(FancyEnum):
+    QUEUED = 'queued'
+    STARTED = 'started'
+    COMPLETED = 'completed'

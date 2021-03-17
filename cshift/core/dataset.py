@@ -13,6 +13,7 @@ from cshift.proto import cshift_pb2 as pb2
 class Dataset:
     def __init__(self, df: pd.DataFrame):
         self.df = df
+        self.spec = pb2.DatasetSpec() # TODO: fill this in!
 
     @classmethod
     def concatenate(cls, *dss: List[Dataset]):
@@ -39,7 +40,8 @@ class Dataset:
     def from_spec(cls, spec: pb2.DatasetSpec):
         artifact = Artifact(spec=spec.artifact_spec)
         parquet_bytes = artifact.download()
-        df = artifact.dataframe_from_parquet_bytes(parquet_bytes=parquet_bytes)
+        df = artifact.dataframe_from_parquet_bytes(
+            parquet_bytes=parquet_bytes)
         return cls(df=df)
 
     @classmethod

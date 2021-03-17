@@ -1,12 +1,16 @@
+from typing import Union
+
 from abc import ABC, ABCMeta, abstractmethod
 
-from cshift.core.result.base_result import BaseResult
+from cshift.core.result.result import Result
+from cshift.core.result.result_set import ResultSet
+from cshift.proto import cshift_pb2 as pb2
 
 class ComparisonInterface(ABC):
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def compare(self) -> BaseResult:
+    def compare(self) -> Union[Result, ResultSet]:
         """
         Checks for distributional shift between datasets using the
             comparison specified by the subclass.
@@ -20,7 +24,10 @@ class ComparisonInterface(ABC):
 
     @classmethod
     @abstractmethod
-    def make_spec(cls, *args, **kwargs):
+    def make_spec(cls, *args, **kwargs) -> Union[
+        pb2.ComparisonSpec,
+        pb2.ComparisonSetSpec
+    ]:
         raise NotImplementedError()
 
     @abstractmethod

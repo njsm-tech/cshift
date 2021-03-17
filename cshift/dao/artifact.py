@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from io import BytesIO
 
 from google.cloud import datastore, storage
@@ -15,6 +17,28 @@ class Artifact:
         self.gcs_client = storage.Client(project=csc_config.PROJECT)
         self.spec = spec
         self.gcs_path = ArtifactGcsPath.from_message(spec.gcs_path)
+
+    @classmethod
+    def new_spec(cls,
+                 name: str = None,
+                 version: str = None,
+                 artifact_type: pb2.ArtifactType = None,
+                 gcs_path: pb2.ArtifactGcsPath = None,
+                 deserialized_type: pb2.ArtifactDeserializedType = None,
+                 serialization_format: pb2.ArtifactSerializationFormat = None
+                 ) -> pb2.ArtifactSpec:
+        return pb2.ArtifactSpec(
+            name=name,
+            version=version,
+            artifact_type=artifact_type,
+            gcs_path=gcs_path,
+            deserialized_type=deserialized_type,
+            serialization_format=serialization_format)
+
+    @classmethod
+    def new(cls, **kwargs) -> Artifact:
+        spec = cls.new_spec(**kwargs)
+        return cls(spec=spec)
 
     @staticmethod
     def dataframe_from_parquet_bytes(parquet_bytes: bytes) -> pd.DataFrame:
