@@ -32,6 +32,7 @@ class Dataset:
         for col in columns:
             names.append(col.name)
             arrays.append(col.arr)
+        print(names)
         data = np.hstack(arrays)
         df = pd.DataFrame(data=data, columns=names)
         return cls(df)

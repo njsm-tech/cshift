@@ -1,4 +1,3 @@
-import pandas as pd
 import scipy.stats as ss
 
 from cshift.proto import cshift_pb2 as pb2
@@ -8,10 +7,6 @@ class Column:
     def __init__(self, name, arr):
         self.name = name
         self.arr = arr
-
-    @classmethod
-    def from_series(cls, series: pd.Series):
-        pass
 
     @classmethod
     def generate_from_spec(cls, spec: pb2.ColumnSpec):
