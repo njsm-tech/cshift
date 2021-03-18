@@ -1,4 +1,14 @@
-from conftest import compute_service_client, comparison_pipelines
+from typing import List
 
-def test_compute_comparison(compute_service_client, comparison_pipelines):
-    pass
+from cshift.client.client_comparison_pipeline import ClientComparisonPipeline
+from cshift.client_service_common.result_set_future import ResultSetFuture
+
+from conftest import comparison_pipelines
+
+def test_compute_comparison(comparison_pipelines: List[ClientComparisonPipeline]):
+    futures = []
+    for cp in comparison_pipelines:
+        res: ResultSetFuture = cp.submit()
+        futures.append(res)
+    for future in futures:
+        future

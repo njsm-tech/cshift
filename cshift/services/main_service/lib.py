@@ -59,6 +59,9 @@ def get_result(result_spec: pb2.ResultSpec) -> Dict:
     d['result'] = result
     return d
 
+def poll_result(result_spec: pb2.ResultSpec) -> Dict:
+    pass
+
 def record_result(result_spec: pb2.ResultSpec) -> Dict:
     key = datastore_client.key(csc_config.RESULTS_KEY, result_spec.name)
     put_proto_to_datastore(key, result_spec)

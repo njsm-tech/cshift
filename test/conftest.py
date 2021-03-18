@@ -43,16 +43,8 @@ def client_config():
     )
 
 @pytest.fixture(scope=SCOPE)
-def compute_service_app() -> Flask:
-    yield compute_service.app
-
-@pytest.fixture(scope=SCOPE)
 def main_service_app() -> Flask:
     yield main_service.app
-
-@pytest.fixture(scope=SCOPE)
-def compute_service_client(compute_service_app: Flask):
-    return compute_service_app.test_client()
 
 @pytest.fixture(scope=SCOPE)
 def main_service_client(main_service_app: Flask):

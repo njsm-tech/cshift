@@ -35,6 +35,12 @@ def get_result():
     spec.ParseFromString(request.data)
     return lib.get_result(spec)
 
+@app.route(api_paths.POLL_RESULT, methods=['GET'])
+def poll_result():
+    spec = pb2.ResultSpec()
+    spec.ParseFromString(request.data)
+    return lib.poll_result(spec)
+
 @app.route(api_paths.RECORD_RESULT, methods=['POST'])
 def record_result():
     spec = pb2.ResultSpec()

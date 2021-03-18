@@ -10,13 +10,15 @@ class ClientObject:
     def __init__(self, config: ClientConfig = None):
         self.config = config
 
-    def request_get(self, url, spec):
+    @staticmethod
+    def request_get(url, spec):
         return requests.get(
             url=main_service_urlify(url),
             headers=PROTOBUF_HEADER,
             data=spec.SerializeToString())
 
-    def request_post(self, url, spec):
+    @staticmethod
+    def request_post(url, spec):
         return requests.post(
             url=main_service_urlify(url),
             headers=PROTOBUF_HEADER,

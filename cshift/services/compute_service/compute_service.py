@@ -45,22 +45,6 @@ def main():
         except TimeoutError:
             streaming_pull_future.cancel()
 
-# app = Flask(__name__)
-#
-# @app.route(api_paths.COMPUTE_COMPARISON, methods=['POST'])
-# def compute_comparison():
-    # spec = pb2.ComparisonPipelineSpec()
-    # spec.ParseFromString(request.data)
-    # pipeline = ComparisonPipeline.from_spec(spec)
-    # result_set = pipeline.run()
-    # result_set.record()
-    # result_set_spec = result_set.to_message()
-    # result_set_json = MessageToJson(result_set_spec)
-    # return {
-    #     'status_code': 200,
-    #     'result_set': result_set_json
-    # }
-
 if __name__ == '__main__':
     main()
     # app.run(host=api_paths.HOST, port=api_paths.COMPUTE_PORT, debug=True)
