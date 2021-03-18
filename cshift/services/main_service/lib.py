@@ -53,14 +53,21 @@ def submit_comparison(comparison_spec: pb2.ComparisonPipelineSpec) -> Dict:
     return {'status_code': 200, 'job_id': job_id}
 
 def get_result(result_spec: pb2.ResultSpec) -> Dict:
-    key = datastore_client.key(csc_config.RESULTS_KEY, result_spec.name)
+    key = datastore_client.key(
+        csc_config.RESULTS_KEY,
+        result_spec.name)
     result = datastore_client.Entity(key)
     d = success_response()
     d['result'] = result
     return d
 
 def poll_result(result_spec: pb2.ResultSpec) -> Dict:
-    pass
+    key = datastore_client.key(
+        csc_config.RESULTS_KEY,
+        result_spec.name)
+    result = datastore_client.Entity(key)
+    print(result, dir(result), list(result.items()))
+    return result
 
 def record_result(result_spec: pb2.ResultSpec) -> Dict:
     key = datastore_client.key(csc_config.RESULTS_KEY, result_spec.name)

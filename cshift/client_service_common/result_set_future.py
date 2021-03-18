@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from cshift.client.client_object import ClientObject
-from cshift.client.client_result_set import ClientResultSet
+from cshift import client
 from cshift.client_service_common import api_paths
 from cshift.dao.job import Job
 from cshift.proto import cshift_pb2 as pb2
@@ -17,8 +16,9 @@ class ResultSetFuture:
         if comparison_set_spec is not None:
             self.spec = comparison_set_spec
 
-    def get(self) -> ClientResultSet:
-        poll_res = ClientObject.request_get(
+    def get(self) -> client.client_result_set.ClientResultSet:
+        poll_res = client.client_object.ClientObject.request_get(
             url=api_paths.POLL_RESULT,
             spec=self.spec)
-        while poll_res
+        print(poll_res)
+        return poll_res

@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import List
 
-from cshift.client_service_common import api_paths, utils
-from cshift.client_service_common.result_set_future import ResultSetFuture
+from cshift.client_service_common import api_paths, utils, result_set_future
 from cshift import enums
 from cshift.dao.job import Job
 from cshift.proto import cshift_pb2 as pb2
@@ -49,12 +48,12 @@ class ClientComparisonPipeline(ClientObject):
             comparisons.append(comp)
         return ClientComparisonSet(*comparisons)
 
-    def submit(self) -> ResultSetFuture:
+    def submit(self) -> result_set_future.ResultSetFuture:
         resp = self.request_post(
             url=api_paths.SUBMIT_COMPARISON,
             spec=self.spec).json()
         job = Job(job_id=resp['job_id'])
-        future = ResultSetFuture(job, self.spec)
+        future = result_set_future.ResultSetFuture(job, self.spec)
         return future
 
     def _check_dataset_specs(self,
