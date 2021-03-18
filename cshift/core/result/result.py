@@ -12,7 +12,8 @@ class Result:
                  comparison_spec: pb2.ComparisonSpec = None):
         self.df = df
         self.comparison_spec = comparison_spec
-        self.name = self.comparison_spec.name + '-result'
+        self.name = self.comparison_spec.metadata.name + '-result'
+        self.id = self.comparison_spec.metadata.id + '-result'
 
         artifact_gcs_path = pb2.ArtifactGcsPath(
             bucket=csc_config.RESULTS_BUCKET,
@@ -23,18 +24,22 @@ class Result:
             artifact_version=None
         )
         self.artifact_spec = pb2.ArtifactSpec(
-            name=comparison_spec.name,
+            name=self.name,
             version=None,
             artifact_type=pb2.ArtifactType.RESULT,
             gcs_path=artifact_gcs_path,
             deserialized_type=pb2.ArtifactDeserializedType.PANDAS_DATAFRAME,
             serialization_format=pb2.ArtifactSerializationFormat.PARQUET)
         self.artifact = Artifact(spec=self.artifact_spec)
+        self.metadata = pb2.CShiftMetadata(
+            name=self.name,
+            id=self.id,
+            version=None)
 
         self.spec = pb2.ResultSpec(
+            metadata=self.metadata,
             comparison_spec=self.comparison_spec,
-            artifact_spec=self.artifact_spec
-        )
+            artifact_spec=self.artifact_spec)
 
     def get(self) -> None:
         self.df = self.artifact.download()
@@ -45,5 +50,6 @@ class Result:
 
     def to_message(self) -> pb2.ResultSpec:
         return pb2.ResultSpec(
+            metadata=self.metadata,
             comparison_spec=self.comparison_spec,
             artifact_spec=self.artifact.spec)

@@ -5,7 +5,7 @@ import sys
 import numpy as np
 import pandas as pd
 
-from cshift.client_service_common import api_paths
+from cshift.client_service_common import api_paths, utils
 import cshift.client_service_common.config as csc_config
 from cshift.dao.artifact import Artifact
 from cshift.dao.artifact_gcs_path import ArtifactGcsPath
@@ -39,7 +39,7 @@ class ClientDataset(ClientObject):
             bucket=csc_config.DATASETS_BUCKET,
             username=config.username,
             project=config.project,
-            artifact_type=pb2.ArtifactType.DATASET,
+            artifact_type=pb2.ArtifactType.DATASET_ARTIFACT,
             artifact_name=name,
             artifact_version=version)
 
@@ -61,13 +61,17 @@ class ClientDataset(ClientObject):
 
         artifact_spec = pb2.ArtifactSpec(
             name=name,
-            artifact_type=pb2.ArtifactType.DATASET,
+            artifact_type=pb2.ArtifactType.DATASET_ARTIFACT,
             gcs_path=self.gcs_path.to_message(),
             deserialized_type=pb2.ArtifactDeserializedType.PANDAS_DATAFRAME,
             serialization_format=pb2.ArtifactSerializationFormat.PARQUET
         )
-        self.spec = pb2.DatasetSpec(
+        metadata = pb2.CShiftMetadata(
             name=name,
+            id=utils.make_id(self),
+            version=version)
+        self.spec = pb2.DatasetSpec(
+            metadata=metadata,
             tags=tags,
             artifact_spec=artifact_spec
         )
