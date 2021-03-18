@@ -57,11 +57,10 @@ class ClientComparisonPipeline(ClientObject):
     def submit(self) -> result_set_future.ResultSetFuture:
         resp = self.request_post(
             url=api_paths.SUBMIT_COMPARISON,
-            spec=self.result_set_spec).json()
+            spec=self.spec).json()
         job = Job(job_id=resp['job_id'])
         future = result_set_future.ResultSetFuture(
-            job,
-            self.spec)
+            job, self.result_set_spec)
         return future
 
     def _check_dataset_specs(self,

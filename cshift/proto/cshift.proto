@@ -24,9 +24,19 @@ enum ComparisonType {
 }
 
 enum ArtifactType {
-    DATASET = 0;
-    MODEL = 1;
-    RESULT = 2;
+    DATASET_ARTIFACT = 0;
+    MODEL_ARTIFACT = 1;
+    RESULT_ARTIFACT = 2;
+}
+
+enum ObjectType {
+    DATASET_OBJECT = 0;
+    MODEL_OBJECT = 1;
+    COMPARISON_OBJECT = 2;
+    COMPARISON_PIPELINE_OBJECT = 3;
+    COMPARISON_SET_OBJECT = 4;
+    RESULT_OBJECT = 5;
+    RESULT_SET_OBJECT = 6;
 }
 
 enum ArtifactDeserializedType {
@@ -38,24 +48,14 @@ enum ArtifactSerializationFormat {
     PARQUET = 0;
 }
 
-// messages
-
-message RandomColumnSpec {
-    // spec for generating random data using scipy.stats 
-    string dist_name = 1;
-    int32 size = 2;
-    map<string, float> kwargs = 3;
-}
-
-message ColumnSpec {
+// core metadata message
+message CShiftMetadata {
     string name = 1;
-    int64 id = 2;
-    FeatureType ftype = 3;
-    DataType dtype = 4;
-
-    RandomColumnSpec random_column_spec = 10;
+    string id = 2;
+    string version = 3;
 }
 
+// messages - artifacts
 message ArtifactGcsPath {
     string bucket = 1;
     string username = 2;
@@ -63,6 +63,7 @@ message ArtifactGcsPath {
     ArtifactType artifact_type = 4;
     string artifact_name = 5;
     string artifact_version = 6;
+    string artifact_id = 7;
 }
 
 message ArtifactSpec {
@@ -72,14 +73,30 @@ message ArtifactSpec {
     ArtifactGcsPath gcs_path = 4;
     ArtifactDeserializedType deserialized_type = 5;
     ArtifactSerializationFormat serialization_format = 6;
+    string id = 7;
 
-    bytes data_bytes = 10;
+    bytes data_bytes = 100;
+}
+
+// messages - objects
+message RandomColumnSpec {
+    // spec for generating random data using scipy.stats 
+    string dist_name = 1;
+    int32 size = 2;
+    map<string, float> kwargs = 3;
+}
+
+message ColumnSpec {
+    CShiftMetadata object_metadata = 1;
+    FeatureType ftype = 2;
+    DataType dtype = 3;
+
+    RandomColumnSpec random_column_spec = 10;
 }
 
 message DatasetSpec {
-    string name = 1;
-    string version = 2;
-    repeated string tags = 3;
+    CShiftMetadata metadata = 1;
+    repeated string tags = 2;
 
     ArtifactSpec artifact_spec = 10;
 
@@ -87,7 +104,7 @@ message DatasetSpec {
 }
 
 message ComparisonSpec {
-    string name = 1;
+    CShiftMetadata metadata = 1;
     repeated string index_fields = 2;
     repeated string groupby_fields = 3;
     ComparisonType comparison_type = 4;
@@ -95,11 +112,12 @@ message ComparisonSpec {
 }
 
 message ComparisonSetSpec {
-    repeated ComparisonSpec comparison_specs = 1;
+    CShiftMetadata metadata = 1;
+    repeated ComparisonSpec comparison_specs = 2;
 }
 
 message ComparisonPipelineSpec {
-    string name = 1;
+    CShiftMetadata metadata = 1;
     repeated string index_fields = 2;
     repeated string groupby_fields = 3;
     repeated ComparisonType comparison_types = 4;
@@ -107,18 +125,18 @@ message ComparisonPipelineSpec {
 }
 
 message ModelSpec {
-    string name = 1;
-    string version = 2;
-
+    CShiftMetadata metadata = 1;
     DatasetSpec training_set_spec = 10;
 }
 
 message ResultSpec {
-    ComparisonSpec comparison_spec = 1;
-    ArtifactSpec artifact_spec = 2;
+    CShiftMetadata metadata = 1;
+    ComparisonSpec comparison_spec = 2;
+    ArtifactSpec artifact_spec = 3;
 }
 
 message ResultSetSpec {
-    repeated ResultSpec result_specs = 1;
-    ComparisonSetSpec comparison_set_spec = 2;
+    CShiftMetadata metadata = 1;
+    repeated ResultSpec result_specs = 2;
+    ComparisonSetSpec comparison_set_spec = 3;
 }

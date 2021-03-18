@@ -17,7 +17,6 @@ subscription_path = subscriber.subscription_path(
 def callback(message):
     try:
         print(f"Received {message}.")
-        print(dir(message))
         job_id = message.attributes['job_id']
         spec = pb2.ComparisonPipelineSpec()
         spec.ParseFromString(message.data)

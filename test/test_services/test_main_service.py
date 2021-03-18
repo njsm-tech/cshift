@@ -1,25 +1,21 @@
 from typing import Dict, List
 
-from flask import Flask
-
 from cshift.client.client_comparison_pipeline import ClientComparisonPipeline
 from cshift.client.client_dataset import ClientDataset
 from cshift.client.client_model import ClientModel
 
-from conftest import main_service_app, comparison_pipelines, datasets, model
+from conftest import client_comparison_pipelines, client_datasets, client_model
 
-def test_register_dataset(main_service_app: Flask, datasets: Dict[str, ClientDataset]):
-    for (name, dataset) in datasets.items():
+def test_register_dataset(
+        client_datasets: Dict[str, ClientDataset]):
+    for (name, dataset) in client_datasets.items():
         resp = dataset.register()
-        print(resp)
 
-def test_register_model(main_service_app: Flask, model: ClientModel):
-    resp = model.register()
-    print(resp)
+def test_register_model(
+        client_model: ClientModel):
+    resp = client_model.register()
 
 def test_submit_comparison(
-        main_service_app: Flask,
-        comparison_pipelines: List[ClientComparisonPipeline]):
-    for cp in comparison_pipelines:
+        client_comparison_pipelines: List[ClientComparisonPipeline]):
+    for cp in client_comparison_pipelines:
         resp = cp.submit()
-        print(resp)

@@ -66,7 +66,6 @@ def poll_result(result_spec: pb2.ResultSpec) -> Dict:
         csc_config.RESULTS_KEY,
         result_spec.name)
     result = datastore_client.Entity(key)
-    print(result, dir(result), list(result.items()))
     return result
 
 def record_result(result_spec: pb2.ResultSpec) -> Dict:
