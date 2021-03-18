@@ -178,7 +178,7 @@ def client_dataset(
         data=client_data,
         feature_cols=list('abcdef'),
         label_cols=None,
-        name='test-dataset',
+        name='test-client-dataset',
         tags=['test'])
 
 @pytest.fixture(scope=SCOPE)
@@ -191,8 +191,7 @@ def client_comparison_pipeline(
         comparison_types=None)
 
 ### test_core fixtures
-
-DATASET_NAME = 'test-dataset'
+DATASET_NAME = 'test-dataset-normal-unsep-ds'
 DATASET_TAGS = ['test']
 DATASET_VERSION = '1'
 
@@ -216,8 +215,9 @@ def dataset_artifact_spec(dataset_gcs_path: ArtifactGcsPath) -> pb2.ArtifactSpec
         name=DATASET_NAME,
         version=DATASET_VERSION,
         artifact_type=dataset_gcs_path.artifact_type,
-        artifact_name=dataset_gcs_path.artifact_name,
-        artifact_version=dataset_gcs_path.artifact_version)
+        gcs_path=dataset_gcs_path.to_message(),
+        deserialized_type=pb2.ArtifactDeserializedType.PANDAS_DATAFRAME,
+        serialization_format=pb2.ArtifactSerializationFormat.PARQUET)
 
 @pytest.fixture(scope=SCOPE)
 def dataset_artifact(dataset_artifact_spec: pb2.ArtifactSpec) -> Artifact:

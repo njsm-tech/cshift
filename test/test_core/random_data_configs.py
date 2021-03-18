@@ -19,7 +19,7 @@ RAND_STATE = 42
 DAYS = 14
 
 READ = True
-WRITE = False
+WRITE = True
 
 def gen_normal_ds(ncols=NFEAT, locs=None, scales=None, size=None) -> Dataset:
     cols = []

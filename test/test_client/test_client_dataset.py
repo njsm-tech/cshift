@@ -17,6 +17,4 @@ def test_dataset_attributes(
 
 def test_register(client_dataset: ClientDataset):
     res = client_dataset.register()
-    js = res.json()
-    print(js)
     assert res.status_code == 200
