@@ -28,20 +28,26 @@ class ClientComparisonPipeline(ClientObject):
         self.groupby_fields = groupby_fields
         self.comparison_types = comparison_types
 
-        dataset_specs = [ds.spec for ds in datasets]
+        self.dataset_specs = [ds.spec for ds in datasets]
         comparison_types = comparison_types or enums.ComparisonType.get_all_values()
-        comparison_types = [utils.enum_str2pb(ct, pb2.ComparisonType) for ct in comparison_types]
+        self.comparison_types = [utils.enum_str2pb(ct, pb2.ComparisonType) for ct in comparison_types]
         self.spec = pb2.ComparisonPipelineSpec(
-            index_fields=index_fields,
-            groupby_fields=groupby_fields,
-            comparison_types=comparison_types,
-            dataset_specs=dataset_specs)
+            index_fields=self.index_fields,
+            groupby_fields=self.groupby_fields,
+            comparison_types=self.comparison_types,
+            dataset_specs=self.dataset_specs)
+
+    @property
+    def result_set_spec(self) -> pb2.ResultSetSpec:
+        client_comparison_set: ClientComparisonSet = self.to_client_comparison_set()
+        return pb2.ResultSetSpec(
+            comparison_set_spec=client_comparison_set.spec)
 
     def to_client_comparison_set(self) -> ClientComparisonSet:
         comparisons = []
         for ct in self.comparison_types:
             comp = ClientComparison(
-                datasets=self.datasets,
+                *self.datasets,
                 comparison_type=ct,
                 groupby_fields=self.groupby_fields,
                 index_fields=self.index_fields)
@@ -51,9 +57,11 @@ class ClientComparisonPipeline(ClientObject):
     def submit(self) -> result_set_future.ResultSetFuture:
         resp = self.request_post(
             url=api_paths.SUBMIT_COMPARISON,
-            spec=self.spec).json()
+            spec=self.result_set_spec).json()
         job = Job(job_id=resp['job_id'])
-        future = result_set_future.ResultSetFuture(job, self.spec)
+        future = result_set_future.ResultSetFuture(
+            job,
+            self.spec)
         return future
 
     def _check_dataset_specs(self,

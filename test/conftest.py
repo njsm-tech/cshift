@@ -106,8 +106,8 @@ def scaled_features(
     return {'train': train_df, 'val': val_df, 'test': test_df}
 
 @pytest.fixture(scope=SCOPE)
-def datasets(client_config: ClientConfig,
-             scaled_features: Dict[str, pd.DataFrame]) -> Dict[str, ClientDataset]:
+def client_datasets(client_config: ClientConfig,
+                    scaled_features: Dict[str, pd.DataFrame]) -> Dict[str, ClientDataset]:
     datasets = {}
     for (key, df) in scaled_features.items():
         datasets[key] = ClientDataset(
@@ -119,31 +119,31 @@ def datasets(client_config: ClientConfig,
     return datasets
 
 @pytest.fixture(scope=SCOPE)
-def model(client_config: ClientConfig,
-          datasets: Dict[str, ClientDataset]) -> ClientModel:
+def client_model(client_config: ClientConfig,
+                 client_datasets) -> ClientModel:
     return ClientModel(
         config=client_config,
         name='test-finance-model',
-        training_set=datasets['train'])
+        training_set=client_datasets['train'])
 
 @pytest.fixture(scope=SCOPE)
-def comparison_pipelines(
+def client_comparison_pipelines(
         client_config: ClientConfig,
-        datasets: Dict[str, ClientDataset]) -> List[ClientComparisonPipeline]:
+        client_datasets) -> List[ClientComparisonPipeline]:
     pipelines = []
     index_fields = ['dt', 'ticker_cat']
     groupby_fields = ['ticker_cat']
     comparison_types = ['ks', 'lr', 'summary_stats']
     pipelines.append(ClientComparisonPipeline(
         config=client_config,
-        datasets=[datasets['train'], datasets['val']],
+        datasets=[client_datasets['train'], client_datasets['val']],
         index_fields=index_fields,
         groupby_fields=groupby_fields,
         comparison_types=comparison_types
     ))
     pipelines.append(ClientComparisonPipeline(
         config=client_config,
-        datasets=[datasets['train'], datasets['test']],
+        datasets=[client_datasets['train'], client_datasets['test']],
         index_fields=index_fields,
         groupby_fields=groupby_fields,
         comparison_types=comparison_types
