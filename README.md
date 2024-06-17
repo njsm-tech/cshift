@@ -6,6 +6,6 @@ The major abstractions are:
 - comparisons, representing algorithms for comparing two datasets to test if they are distributionally the same
 - results and result sets
 
-It is structured as a client-service architecture, so that comparisons can be run remotely on large datasets. 
+Datasets can be given as pandas dataframes for in-memory processing. The library is structured as a client-service architecture, so that comparisons can be run remotely on large datasets. 
 
 To run tests, run `./tests.sh` from within the `tests` folder.
